@@ -1,0 +1,15 @@
+<apex:page showHeader="false" sidebar="false" renderAs="PDF" applyBodyTag="false" applyHtmlTag="false">
+<head>
+           <style  type="text/css">
+            @page { size:landscape; 
+                @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;}
+            };
+            
+        </style>
+       </head>
+       <body>
+        <c:DailyReportPDF idWOa="a006C000001gDa4QAE" daily="true" weekly="false"/><!--a006C000001lox1QAA  a0Bf200000qtJlaEAE-->
+        </body>
+        <div class="footer" align="center" style="font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif">
+        </div>
+</apex:page>

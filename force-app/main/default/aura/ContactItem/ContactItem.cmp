@@ -1,0 +1,39 @@
+<aura:component >
+	<aura:attribute name="cont" type="Contact"/>
+    <aura:attribute name="create" type="Boolean"/>
+    <aura:attribute name="send" type="Boolean"/>
+    <aura:attribute name="woNotification" type="Boolean"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <tr>
+        <td>
+        	<div class="slds-form-element__control">
+                <ui:inputCheckbox aura:id="create" value="{!v.create}"/>
+            </div>
+        </td>
+        <td>
+        	<div class="slds-form-element__control">
+                <ui:outputText value="{!v.cont.Name}"/>
+            </div>
+        </td>
+        <td>
+        	<div class="slds-form-element__control">
+                <ui:outputText value="{!v.cont.Type__c}"/>
+            </div>
+        </td>
+        <td>
+        	<div class="slds-form-element__control">
+                <ui:outputText value="{!v.cont.Role__c}"/>
+            </div>
+        </td>
+        <td>
+        	<div class="slds-form-element__control">
+                <ui:inputCheckbox aura:id="send" value="{!v.send}"/>
+            </div>
+        </td>
+        <td>
+        	<div class="slds-form-element__control">
+                <ui:inputCheckbox aura:id="send" value="{!v.woNotification}"/>
+            </div>
+        </td>
+    </tr>
+</aura:component>

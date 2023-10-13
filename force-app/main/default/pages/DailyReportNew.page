@@ -1,0 +1,217 @@
+<!--
+ *  @Copyright      DoIT Cloud Consulting
+ *  @Author         Jaziel Morán <jaziel.moran@doitcloud.consulting>
+--> 
+
+<apex:page sidebar="true" renderAs="PDF" controller="dailyReportNewController" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+<head>
+   	<style  type="text/css">
+   			div.header {
+        		text-align: right;
+	       		margin-top: 20px;
+	       		margin-left: 10px;
+				display: block; 
+				position: running(header);
+			}
+			@page {
+				@top-center { content: element(header) }
+				padding-top: 70px;
+			}
+       	@page {
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+       	};
+       	tr{
+       		page-break-inside:avoid; 
+            page-break-after:auto 
+       	}
+       	.classh5{
+       		font-size: 11px;
+       		margin-bottom: 3px;
+       		margin-top: 3px;
+       	}
+       	.classtd{
+       		/*text-align:justify;*/
+       		font-size:10px;
+       	}
+       	.classFirma{
+       		/*text-align:justify;*/
+       		font-size:14px;
+       	}
+       	.classli{
+       		text-align:justify;
+       		font-size: 10px;
+       	}
+       	.classul{
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       	}
+       	.classp{
+       		text-align:justify;
+       		font-size: 10px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+       	}
+        
+       .dos{
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 1px;
+            
+        }
+        
+        th{
+            font-size: 14px;
+            font-family:Times New Roman; 
+        
+
+        }
+        
+        .title{
+            
+            font-size: 14px;
+            font-family:Times New Roman;
+             border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+            
+        }
+        
+        td{
+            font-size: 15px;
+            font-family:Times New Roman;
+            text-align: left;
+
+        }
+        
+        .tdTablas{
+            font-size: 15px;
+            font-family:Times New Roman;
+            text-align: center;
+            
+        }
+        
+        .negrita{
+            
+            font-weight:bold;
+        }
+        
+        .asterisco{
+            color: white;
+        }
+        
+   	</style>
+</head>
+<body>
+    
+	<div class='header'><table>
+ 		<tr>
+ 			<td>&nbsp;</td>
+	      	<td bgcolor="#FFFFFF"><apex:image width="200" url="{!$Resource.Logo}"/></td>
+	    </tr>
+ 	</table></div>
+	<div style="page-break-after: always;">
+<br/>
+ 	<table align="center">
+       <th><h2>Work Order Inspection Details</h2></th> 
+        
+    </table>
+        <br/>
+        <hr/>
+ 	<table class="dos" width="100%">
+        <tr>
+            <td >Work Order Code: <b>{!wOrder.Name}</b></td>
+        </tr>
+        <tr>
+            <td>Problem, PRR, NCT, NCN: <b>{!wOrder.Problem__c}</b></td>
+        </tr>
+        <tr>
+            <td>Date: <b>{!DAY(DateYesterday)}-{!MONTH(DateYesterday)}-{!YEAR(DateYesterday)}</b></td>
+        </tr>
+    </table>
+        <hr/>
+	<br/>
+             
+    <apex:repeat value="{!inspections}" var="key">
+        <apex:variable value="{!0}" var="totalIns"/>
+        <apex:variable value="{!0}" var="totalDef"/>
+        <apex:variable value="{!0.00}" var="totalStandardHours"/>
+        <apex:variable value="{!0.00}" var="totalOTHours"/>
+        <b style="font-size:22px;"><apex:outputText value="{!partNumbers[key].Name}" style="padding-right: 180px;"></apex:outputText></b>
+        <br/>
+        <table width="100%" border="0" cellspacing="0" cellpadding="2" style="border-collapse:collapse;" >
+            <thead title="{!partNumbers[key].Name}" style="font-size: 14px;text-align: center">
+                <tr style="background:rgb(232,123,126);">
+                    <th scope="col">Total Inspec</th>
+                    <th scope="col">QTY Certifiec</th>
+                    <th scope="col">Total Defects</th>
+                    <th scope="col">Defects</th>
+                    <th scope="col">Other Defect</th>
+                    <th scope="col">Rework</th>
+                    <th scope="col">Shift</th>
+                    <th scope="col" style="background: #81C7A2">QTY</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 14px;text-align: center">
+                <apex:repeat value="{!inspections[key]}" var="listIns">
+                    <tr style="">
+                        <td>{!listIns.Total_inspected__c}</td> 
+                        <td>{!listIns.QTY_Certified__c}</td>
+                        <td>{!listIns.Total_defects__c}</td>
+                        <td>{!listIns.Defects__c}</td>
+                        <td>{!listIns.Other_defects__c}</td>
+                        <td>{!listIns.Rework__c}</td>
+                        <td>{!listIns.Shift__c}</td>
+                        <td>{!listIns.Quantity__c}</td>
+                    </tr>
+                    <apex:variable var="totalIns" value="{!totalIns + listIns.Total_inspected__c}"/>
+                    <apex:variable var="totalDef" value="{!totalDef + listIns.Total_defects__c}"/>
+                    <apex:variable var="totalStandardHours" value="{!if(listIns.Billable_item__r.Billable_Item_Type__c=='Hourly',if(!contains(listIns.Billable_item__r.Name,'OT'),totalStandardHours+listIns.Quantity__c, totalStandardHours),totalStandardHours)}"/>
+                    <apex:variable var="totalOTHours" value="{!if(listIns.Billable_item__r.Billable_Item_Type__c=='Hourly',if(contains(listIns.Billable_item__r.Name,'OT'),totalOTHours+listIns.Quantity__c, totalOTHours),totalOTHours)}"/>
+                </apex:repeat>
+            </tbody>
+        </table>
+        <br/>
+        <table width="100%">
+            <tr>
+                <td width="50%"><apex:outputText value="Yesterday Total Inspected: {!totalIns}"/></td>
+                <td><b><apex:outputText value="Project Total Inspected: {!partNumbers[key].Total_inspected__c}" style="padding-left: 150px;"/></b></td>
+            </tr>
+            <tr>
+                <td><apex:outputText value="Yesterday Total Defects: {!totalDef}"/></td>
+                <td><b><apex:outputText value="Project Total Defects: {!partNumbers[key].Total_defects__c}" style="padding-left: 150px;"/></b></td>
+            </tr>
+            <tr>
+                <td><apex:outputText value="Yesterday Standard Hours: {!totalStandardHours}"/></td>
+                <td><b><apex:outputText value="Project Total Rework: {!partNumbers[key].Total_rework__c}" style="padding-left: 150px;"/></b></td>
+            </tr>
+            <tr>
+                <td><apex:outputText value="Yesterday Overtime: {!totalOTHours}"/></td>
+                <td><b><apex:outputText value="Project Total Certified: {!partNumbers[key].Total_QTY_Certified__c}" style="padding-left: 150px;"/></b></td>
+            </tr>
+        </table>
+        <br/><br/>
+    </apex:repeat>     
+    <table width="100%">
+        <tr>
+            <td class="tdTablas">Name</td>
+            <td class="tdTablas">Desciption</td>
+            <td class="tdTablas">Price</td>
+            <td class="tdTablas">Unit Cost</td>
+        </tr>
+      
+	<apex:repeat value="{!bItems}" var="BI">  
+        <tr>
+            <td class="tdTablas">{!BI.Name}</td>
+            <td class="tdTablas">{!BI.Description__c}</td>
+            <td class="tdTablas">{!BI.Billable_item_price_type__c}</td>
+            <td class="tdTablas">{!BI.Unit_cost__c}</td>
+        </tr>
+	</apex:repeat>
+    </table>
+    </div>
+	
+ </body>
+
+</apex:page>

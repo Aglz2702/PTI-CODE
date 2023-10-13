@@ -1,0 +1,78 @@
+<!--
+/**
+ *  @Name           CreatePartNumbers
+ *  @Copyright      DoIT Cloud Consulting
+ *  @Author         Jaziel Morán <jaziel.moran@doitcloud.consulting>
+**/
+-->
+<aura:component implements="flexipage:availableForRecordHome,force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="CreatePartNumbersController" access="global" >
+	<aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="WorkOrder" type="Work_order__c"/>
+     <aura:attribute name="message" type="String"/>
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="Products" type="List" />
+    <force:recordData aura:id="WORecord"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.WorkOrder}"
+                      layoutType="FULL"
+                      />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:handler name="deletePart" event="c:deletePartEvt" action="{!c.removePart}" />
+    
+    <lightning:card iconName="action:add_file" title="{!$Label.c.CMP_field_custom_1+' '+v.WorkOrder.Name}" >
+        <h3 class="slds-section-title--divider">{!$Label.c.VF_field_custom_4}</h3>
+        <ui:outputText aura:id="outColor" value="" class="text"/>
+        <div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+          <div class="slds-form-element">
+            <label class="slds-form-element__label" for="inputNameSample1">{!$Label.c.CMP_field_custom_2}</label>
+            <div class="slds-form-element__control">
+              <input id="DefectDescription" class="slds-input" type="text" placeholder="" />
+              <!--<textarea id="DefectDescription" rows="3"></textarea>
+              <ui:inputTextArea aura:id="DefectDescription" label=""  value="" rows="3"/>-->
+            </div>
+            <label class="slds-form-element__label" for="inputNameSample1">{!$Label.c.CMP_field_custom_3}</label>
+            <div class="slds-form-element__control">
+              <input id="PartDescription" class="slds-input" type="text" placeholder="" />
+            </div>
+          </div>
+        </div>
+        <h3 class="slds-section-title--divider">{!$Label.c.CMP_field_custom_4}</h3>
+        <span style="color:red">
+        <ui:outputText  value="{!v.message}"/>
+        </span>
+        <div class="slds-m-around--x-small">
+            <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        <th scope="col">
+                            <div class="slds-truncate" title="Name">{!$Label.c.CMP_field_custom_5}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Email"></div>
+                        </th>
+                    </tr>
+                </thead>
+     
+                <tbody id="myTable">
+                   <!-- Iterate all child record list in table format -->  
+                    <aura:iteration items="{!v.Products}" var="Pro">
+                       <c:ProductsListItem Product="{!Pro}"/>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            <br/>
+            <div class="slds-grid slds-grid--align-center small">
+              <button class="slds-button slds-button--brand" onclick="{!c.addProduct}">{!$Label.c.CMP_field_custom_7}</button>
+            </div>
+            <br/>
+            <br/>
+            <div class="slds-grid slds-grid--align-end small">
+                <ui:button class="btn btn-default" press="{!c.guardar}" >{!$Label.c.VF_field_custom_3}</ui:button>
+            </div>
+        </div>
+        
+    </lightning:card>
+    
+</aura:component>

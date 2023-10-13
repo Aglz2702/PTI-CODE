@@ -1,0 +1,260 @@
+<apex:page showHeader="false" sidebar="true" controller="KOMPDFPreviewController" renderAs="PDF" applyBodyTag="false" applyHtmlTag="false">
+    <head>
+   	<style  type="text/css">
+   			div.header {
+	       		margin-top: 20px;
+	       		margin-left: 10px;
+				display: block; 
+				position: running(header);
+			}
+			@page {
+				@top-center { content: element(header) }
+				padding-top: 70px;
+			}
+       	@page {
+        	@bottom-left{content: "L2 Kick Off Meeting Minute"; font-size:11px;font-family: sans-serif;};
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+        	@bottom-right{content: "FR.CXT.3CPR.06Rev. 2"; font-size:11px;font-family: sans-serif;};
+       	};
+       	tr{
+       		page-break-inside:avoid; 
+            page-break-after:auto 
+       	}
+       	.classh5{
+       		font-size: 16px;
+       		margin-bottom: 1px;
+       		margin-top: 1px;
+       	}
+       	.classtd{
+       		/*text-align:justify;*/
+       		font-size:10px;
+       	}
+       	.classFirma{
+       		/*text-align:justify;*/
+       		font-size:14px;
+       	}
+       	.classli{
+       		text-align:justify;
+       		font-size: 10px;
+       	}
+       	.classul{
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       	}
+       	.classp{
+       		text-align:justify;
+       		font-size: 10px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+       	}
+        
+        .princi{
+       		font-size: 14px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+			font-family: arial;
+        	background-color: lightgrey;
+       	}
+        
+        .asterisco{
+            color: white;
+        }
+        
+        .tdTablas{
+            text-align: center;
+            font-family: Arial Nova Cond Light;
+        	border: black 2px solid;
+        }
+        
+        .dos{
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+            font-family: Arial Nova Cond Light;
+            
+        }
+        
+        .no {
+  			border: black 2px solid;
+        	}
+        }
+        
+   	</style>
+</head>
+    <div class='header'>
+        <table width="100%">
+        	<tr>
+            	<td align="left"><apex:image width="110" url="{!$Resource.Logo}"/></td>
+            	<td align="center"><h4>Kick Off Meeting Project L2/LRM Signed-off Sheet</h4></td>
+            	<td align="right"><apex:image width="60" url="{!$Resource.Banderas}"/></td>
+        	</tr>
+    	</table>
+    </div>
+    <body>
+        
+	<div style="page-break-after: avoid;">
+ 		<table>
+            <tr>
+            	<td width="150"><b>Project Number:</b></td>
+                <td width="100" align="left"><b><u>{!KOM.Project_Number__c}</u></b></td>
+                <td width="150"><b>Project Description:</b></td>
+                <td width="350" align="left"><b><u>{!KOM.Project_Description__c}</u></b></td>
+            </tr>
+        </table>
+         <table>   
+            <tr>
+            	<td width="150"><b>Supplier Plant and Location:</b></td>
+                <td width="300" align="left"><b><u>{!KOM.Supplier_Plant_Location__c}</u></b></td>
+                <td width="80"><b>Date</b></td>
+                <td width="80" align="left"><b><u>{!DAY(KOM.Creation_Date__c)}-{!MONTH(KOM.Creation_Date__c)}-{!YEAR(KOM.Creation_Date__c)}</u></b></td>
+            </tr>
+        </table>
+        <table>   
+            <tr>
+            	<td width="150"><b>Supplier Name</b></td>
+                <td width="220" align="left"><b><u>{!KOM.Cuenta__r.Name}</u></b></td>
+                <td width="100"><b>Main Contact</b></td>
+                <td width="250" align="left"><b><u>{!KOM.Main_Contact__r.Name}</u></b></td>
+            </tr>
+        </table>
+        <br/>
+        
+        <table width="100%" style=" border: 1px solid black;">
+            <th style="background:rgb(0, 0, 0); color:White;" align="center">Name</th>
+            <th style="background:rgb(0, 0, 0); color:White;" align="center">Position</th>
+            <th style="background:rgb(0, 0, 0); color:White;" align="center">Company</th>
+            <th style="background:rgb(0, 0, 0); color:White;" align="center">Signature</th>
+            
+            <apex:repeat value="{!cfList}" var="BI">  
+                <tr>
+                    <td class="tdTablas" style=" border: 1px solid black;">{!BI.Contact__r.Name}</td>
+                    <td class="tdTablas" style=" border: 1px solid black;">{!BI.Role__c}</td>
+                    <td class="tdTablas" style=" border: 1px solid black;">{!BI.Customer__r.Name}</td>
+                    <td class="tdTablas">__________________</td>
+                </tr>
+			</apex:repeat>
+        </table>
+        <p align="center" ><b>Agenda</b></p>
+        <br/>
+        <table width="100%" style=" border: 1px solid black; margin:-2.5% 0;">
+            <th style="background:rgb(0, 0, 0); color:White; font-size: 14px;" align="center" width="10%" >Item</th>
+            <th style="background:rgb(0, 0, 0); color:White; font-size: 14px;" align="center" width="80%">Details / Objective</th>
+            <th style="background:rgb(0, 0, 0); color:White; font-size: 14px;" align="center" width="10%">Duration</th>
+            	<tr>
+            		<td align="center" class="no" style=" border: 1px solid black; font-size: 13px">Process/ Policies: </td>
+                	<td align="left" class="no" style=" border: 1px solid black; font-size: 13px">•The 3CPR-P sorts all parts past the Supplier’s dock and all parts to all plants prior to shipment for no less than 5 and up to 999 days from the Supplier’s permanent corrective action (PCA) implementation date. The project exit clock resets if a nonconforming part is found after the PCA implementation date.<br/>•If a Supplier fails to provide this mandatory PO coverage, the project will be put on "Hold for P.O." status, sorting will be stopped and email notification is sent to FCA management, the Supplier and the 3PCR-P.<br/>•Once a project is placed on “Hold for P.O.”, all elements affected must be re-established. No credit will be given for past completed activities and Suppliers will not be able to back date entries in the WBS.•PN’s and/or inspection characteristics may be added to an existing project as long as the clean point has not already been achieved and entered into the WBS. If additional PN’s or characteristics are determined to be necessary after the project has had the clean point entered into the WBS, a new project will be required to address the additional PN’s and/or characteristics. </td>
+                	<td align="center" class="no" style=" border: 1px solid black; font-size: 13px"></td>
+            	</tr>
+            	<tr>
+            		<td align="center" class="no" style=" border: 1px solid black; font-size: 13px">Supplier Responsibilities: </td>
+                	<td align="left" class="no" style=" border: 1px solid black; font-size: 13px">•Issue Purchase Order to the 3CPR-P.<br/> •Provide all suspect PN’s by email to the 3CPR-P and FCA within 24 hours of project initiation.<br/>•Notify the 3CPR-P of non-continuous production schedules for a L2 project.<br/>•Email all expectations (reports, safety requirements, communication, etc.) to the 3CPR-P within 24 hours of project initiation.<br/>•Enter all required inputs into the 3CPR WBS Details page.<br/>•Provide a controlled containment space, a safe work environment, unrestricted dock access and proper lighting for the 3CPR-P sort.<br/>•Provide the 3CPR-P with daily build requirements and schedules to prevent line shortage or containment downtime.<br/>•Do not break containment or ship around the 3CPR-P. The 3CPR-P shall be the last to touch the parts.<br/>•Provide a spot buy or blanket purchase order to the 3CPR-P to cover all L1 sorting while L2 sorting is being initiated.<br/>•Establish a written process and provide training to ensure effective 3CPR containment control.<br/></td>
+                	<td align="center" class="no" style=" border: 1px solid black; font-size: 13px"></td>
+            	</tr>
+            	<tr>
+            		<td align="center" class="no" style=" border: 1px solid black; font-size: 13px">PTI Responsibilities: </td>
+                	<td align="left" class="no" style=" border: 1px solid black; font-size: 13px">•Confirm in L2 kick-off meetings that the Supplier has identified all PN’s that may be affected by the same failure mode.<br/>•Enter data and edits into the 3CPR WBS in a timely manner</td>
+                	<td align="center" class="no" style=" border: 1px solid black; font-size: 13px"></td>
+            	</tr>
+            	<tr>
+            		<td align="center" class="no" style=" border: 1px solid black; font-size: 12px">Resources: Personnel, Area, Shifts </td>
+                	<td align="left" class="no" style=" border: 1px solid black; font-size: 12px"></td>
+                	<td align="center" class="no" style=" border: 1px solid black; font-size: 12px"></td>
+            	</tr>
+        </table>
+        <p align="center"><b>Project Definition</b></p>
+        <table width="100%" style=" border: 1px solid black;">
+            <th style="background:rgb(0, 0, 0); color:White;" colspan="4" align="center">Part Numbers</th>
+
+            <tr>
+                <apex:variable var="index" value="{!1}" />
+	           <apex:repeat value="{!parts}" var="p">
+                    <td class="tdTablas">{!p.Part_number__c}</td>
+                <apex:outputText escape="false" rendered="{!MOD(index, 4) == 0}" value="</tr><tr>"/>
+                <apex:variable var="index" value="{!index + 1}" />
+                </apex:repeat>
+        </tr>
+
+        </table>
+        <br/>
+        <table width="100%" style=" border: 1px solid black;">
+            <th style="background:rgb(0, 0, 0); color:White;" colspan="4" align="center">Characteristics to inspect</th>
+            <tr>
+            	<td align="center" style=" border: 1px solid black;">{!KOM.Characteristics_to_inspect__c}</td>
+            </tr>
+            
+        </table>
+        <br/>
+        <table width="100%" style=" border: 1px solid black;">
+            <th style="background:rgb(0, 0, 0); color:White;" colspan="4" align="center">	Special instructions for characteristics</th>
+            <tr>
+            	<td align="center" height="80px" style=" border: 1px solid black;">{!KOM.Special_Instructions__c}</td>
+            </tr>
+
+        </table>
+         <br/>
+        <table width="100%" style=" border: 1px solid black;">
+            <th style="background:rgb(0, 0, 0); color:White;" colspan="4" align="center">	Cerfication Mark</th>
+            <tr>
+            	<td align="left" style=" border: 1px solid black;">Describe certification Mark To  Be Applied On Parts: </td>
+            </tr>
+            <tr>
+            	<td align="center" height="80px" style=" border: 1px solid black;">{!KOM.Certification_Mark__c}</td>
+            </tr>
+        </table>
+<br/>
+        <table width="100%" style=" border: 1px solid black;">
+            <th colspan="4" align="center">	Additional Comments</th>
+            <tr>
+            	<td align="center" height="100px" style=" border: 1px solid black;">{!KOM.Additional_Comments__c}</td>
+            </tr>
+        </table>
+        <p align="center"><b>Rates</b></p>
+        <p align="left" style="margin:-2.5% 0;"><b><u><i>3CPR Services Level 2 at Suppliers Facilities</i></u></b></p>
+        <br/>
+        <ul>
+            <li>Sorting and Inspection $13.28USD Per Hour Regular Time</li>
+            <li>Sorting and Inspection $15.50USD Per Hour Over/Premium Time</li>
+            <li>Supervisor $13.28USD Per Hour Regular Time </li>
+            <li>Supervisor $15.50USD Per Hour Over/Premium Time</li>
+            <li>Kick Off Meeting Of $50.00USD Fee</li>
+            <li>Travel Expenses to be billed at cost +10% mark up</li>
+            <li>Per Diem per inspector of $45USD/Day</li>
+            <li>Travelling Time To Be Billed at inspection rate</li>
+        </ul>
+        <p align="left" style="margin:-2.5% 0;"><b><u>VAT TAX 16% NOT INCLUDED TO BE ADDED TO INVOICE</u></b></p>
+        <br/><br/>
+        <br/>
+        	<p align="left"><b><u><i>SUPPLIER CONTACTS (name, phone, email)</i></u></b></p>
+        	<table width="100%">
+                <tr>
+                    <td>Accounts Payable:__________________________________________________________________</td>
+                </tr> 
+                <tr>
+                    <td>Financial:_________________________________________________________________________</td>
+                </tr> 
+                <tr>
+                    <td>Quality:__________________________________________________________________________</td>
+                </tr> 
+        	</table>
+        <br/>
+        <p align="left"><b><u><i>PTI CONTACTS</i></u></b></p>
+        	<table width="100%">
+                <tr>
+                    <td><b>Customer Service:</b> Quezia dos Santos Carneiro – +52 1 4424761402 – qcarneiro@ptiqcs.com</td>
+                </tr> 
+                <tr>
+                    <td><b>Financial:</b> Cristina Bugarini – +52 1 4773247064 – c.bugarini@ptiqcs.com</td>
+                </tr> 
+                <tr>
+                    <td><b>Operations: South:</b> Guillermo Osorio +52 1 7224922397 gosorio@ptiqcs.com / <b>Center:</b> Jose Santos +52 1 4721270923 JSantos@ptiqcs.com / <b>North:</b> Fernando Negrete + 52 1 8441622476 fnegrete@ptiqcs.com </td>
+                </tr> 
+        	</table>
+        
+	</div>
+       
+ </body>
+    	
+</apex:page>

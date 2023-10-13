@@ -1,0 +1,98 @@
+<!--
+/**
+ *  @Name           CreatePartNumbers
+ *  @Copyright      DoIT Cloud Consulting
+ *  @Author         Jaziel Morán <jaziel.moran@doitcloud.consulting>
+**/
+-->
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" controller="CreateContactFunctionController">
+	
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="CustomerContact" type="List" />
+    <aura:attribute name="PTIContact" type="List" />
+    <aura:attribute name="ShowContacts" type="List" />
+    <aura:attribute name="existing" type="Map" />
+    <aura:attribute name="CheckboxPTI" type="Boolean" default="false" />
+    <aura:attribute name="objInfo" type="Contact_function__c" default="{sobjectType : 'Contact_function__c'}" />
+    <aura:attribute name="WorkOrder" type="Work_order__c"/>
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="message" type="String"/>
+    
+    <force:recordData aura:id="WORecord"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.WorkOrder}"
+                      layoutType="FULL"
+                      />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    
+    <aura:html tag="style">
+        .slds-modal__container {
+        	min-width: 75vw;
+        }
+    </aura:html>  
+    
+    <lightning:card iconName="action:add_file" title="Create contact functions" >
+        <h3 class="slds-section-title--divider">Type</h3>
+        <span style="color:red">
+        	<ui:outputText  value="{!v.message}"/>
+        </span>
+        <div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+        	<div class="slds-form-element">
+                <ui:inputCheckbox aura:id="Customer" label="Customer" value="false" change="{!c.SelectCustomer}"/>
+                <table>
+                	<tr>
+                        <td style="width:50%"><ui:inputCheckbox aura:id="PTI" label="PTI" value="false" change="{!c.SelectedPTI}"/></td>
+                        <td style="width:50%">
+                            <aura:renderIf isTrue="{!v.CheckboxPTI}">
+                                <label class="slds-form-element__label" for="inputNameSample1">Type</label>
+                                <ui:inputSelect  aura:id="Type" class="slds-select"  change="{!c.onPicklistChange}"/>
+                                <aura:set attribute="else">
+                                </aura:set>
+                            </aura:renderIf>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <h3 class="slds-section-title--divider">Contacts</h3>
+        <div class="slds-form--stacked slds-p-around--medium slds-m-bottom--x-small">
+            <div class="slds-form-element">
+                <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
+                    <thead>
+                        <tr class="slds-text-heading--label">
+                            <th scope="col" style="width:10%">
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Name</div>
+                            </th>
+                            <th scope="col" style="width:20%">
+                                <div class="slds-truncate">Type</div>
+                            </th>
+                            <th scope="col" >
+                                <div class="slds-truncate">Role</div>
+                            </th>
+                            <th scope="col" style="width:15%">
+                                <div class="slds-truncate">Send Email</div>
+                            </th>
+                            <th scope="col" style="width:15%">
+                                <div class="slds-truncate">Wo Notification</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <!-- Iterate all child record list in table format -->  
+                        <aura:iteration items="{!v.ShowContacts}" var="type">
+                            <aura:iteration items="{!type}" var="Contacts">
+                                <c:ContactItem cont="{!Contacts.cont}" send="{!Contacts.send}" create="{!Contacts.create}" woNotification="{!Contacts.woNotification}"/>
+                            </aura:iteration>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ui:button aura:id="button" class="button" label="Save" press="{!c.save}"/>
+    </lightning:card>
+</aura:component>

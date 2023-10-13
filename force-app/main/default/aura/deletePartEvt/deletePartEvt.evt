@@ -1,0 +1,10 @@
+<!--
+/**
+ *  @Name           deletePartEvt
+ *  @Copyright      DoIT Cloud Consulting
+ *  @Author         Jaziel Morán <jaziel.moran@doitcloud.consulting>
+**/
+-->
+<aura:event type="COMPONENT" description="Delete Part Event">
+    <aura:attribute name="selectedPart" type="Part_number__c"/>
+</aura:event>

@@ -1,0 +1,27 @@
+<!--
+ *  @Copyright      PTI QCS
+ *  @Author         Emmanuel Gonzalez <egonzalez@ptiqcs.com>
+-->
+
+<apex:page showHeader="true" sidebar="true" lightningStylesheets="true" controller="SendContractNew"> 
+    <apex:form id="form1">
+    <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1" >
+                <apex:inputCheckbox value="{!verifyFinance}" label="Mandatory Contact Finance" />
+	        	<apex:inputCheckbox value="{!verifySend}" label="Yes, I want to send to sign" />
+            </apex:pageBlockSection>
+            <apex:commandButton value="Send" action="{!SendContractNew}" style="float: right;" status="myAjaxStatus" reRender="form1"/>
+
+            <apex:actionStatus id="myAjaxStatus" ><!--{!$Resource.loading}-->
+			        <apex:facet name="start">
+					        <apex:outputPanel >
+					            <img src="{!$Resource.loading}" width="25" height="25" />
+					            <apex:outputLabel value="Loading..."/>
+					        </apex:outputPanel>            
+					    </apex:facet>
+			    </apex:actionStatus>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

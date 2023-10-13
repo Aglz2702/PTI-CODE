@@ -1,0 +1,14 @@
+<apex:page controller="contactquery" renderAs="PDF">
+    <!--<apex:pageBlock title="Export Results" >
+        <apex:pageBlockTable value="{!cs}" var="contact">
+            <apex:column value="{!contact.ID}"/>
+            <apex:column value="{!contact.Name}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>-->
+    <!--<apex:chart height="350" width="450" data="{!pieData}">
+        <apex:pieSeries dataField="data" labelField="name"/>
+        <apex:legend position="right"/>
+    </apex:chart>-->
+<apex:image url="http://chart.apis.google.com/chart?cht=bvg&amp;chs=350x300&amp;chd=t:20,35,10&amp;chxr=1,0,100&amp;chds=0,100&amp;chco=FF0000|FFA000|00FF00&amp;chbh=65,0,35&amp;chxt=x,y,x&amp;chxl=0:|High|Medium|Low|2:||Task+Priority||&amp;chxs=2,000000,12&amp;chtt=Tasks+on+my+To+Do+list&amp;chts=000000,20&amp;chg=0,25,5,5" alt="" />
+<apex:image url="http://chart.apis.google.com/chart?cht=bvg&amp;chs=350x300&amp;chd=t:20,35,10&amp;chxr=1,0,40&amp;chds=0,40&amp;chco=FF0000|FFA000|00FF00&amp;chbh=10,0,35&amp;chxt=x,y,x&amp;chxl=0:|High|Medium|Low|2:||Task+Priority||&amp;chxs=2,000000,12&amp;chtt=Tasks+on+my+To+Do+list&amp;chts=000000,20&amp;chg=0,25,5,5" alt="" />
+</apex:page>

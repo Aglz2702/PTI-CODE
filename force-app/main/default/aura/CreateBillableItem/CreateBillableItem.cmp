@@ -1,0 +1,62 @@
+<aura:component implements="flexipage:availableForRecordHome,force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global" controller="CreateBillableItemController" >
+	<aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="WorkOrder" type="Work_order__c"/>
+    <aura:attribute name="PriceType" type="List" />
+    <aura:attribute name="Type" type="List" />
+    <aura:attribute name="BillableItems" type="List" />
+    <aura:attribute name="Servs" type="List" />
+    <aura:attribute name="message" type="String"/>
+    <lightning:navigation aura:id="navService"/>
+    <force:recordData aura:id="WORecord"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.WorkOrder}"
+                      layoutType="FULL"
+                      recordUpdated="{!c.doInit}"
+                      />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:handler name="cmpEvent" event="c:changeBillableItem" action="{!c.handleComponentEvent}"/>
+    <lightning:card iconName="action:add_file" title="{!$Label.c.CMP_Billable_Item_field_custom_1}" >
+        
+        <h3 class="slds-section-title--divider">{!$Label.c.CMP_Billable_Item_field_custom_2}</h3>
+        <span style="color:red">
+        	<ui:outputText  value="{!v.message}"/>
+        </span>
+        <div class="slds-m-around--x-small">
+            <table class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        <th scope="col">
+                            <div class="slds-truncate">{!$Label.c.CMP_Billable_Item_field_custom_3}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate">{!$Label.c.CMP_Billable_Item_field_custom_4}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate">{!$Label.c.CMP_Billable_Item_field_custom_5}</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate"></div>
+                        </th>
+                    </tr>
+                </thead>
+     		
+                <tbody>
+                   <!-- Iterate all child record list in table format -->  
+                    <aura:iteration items="{!v.BillableItems}" var="BI">
+                        <c:BillableItemsList recordId="{!v.recordId}" PriceType="{!v.PriceType}" Servs="{!v.Servs}" Position="{!BI.Position}"/>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            <br/>
+            <div class="slds-grid slds-grid--align-center small">
+              <button class="slds-button slds-button--brand" onclick="{!c.addBI}">{!$Label.c.CMP_field_custom_7}</button>
+            </div>
+            <br/>
+            <br/>
+            <div class="slds-grid slds-grid--align-end small">
+                <ui:button class="btn btn-default" press="{!c.Create}">{!$Label.c.VF_field_custom_3}</ui:button>
+            </div>
+        </div>
+        
+    </lightning:card>
+</aura:component>

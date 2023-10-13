@@ -1,0 +1,8 @@
+<apex:page showHeader="true" sidebar="true" renderAs="PDF">
+	HOLA MUNDO
+	<p>COORDINATOR</p>
+	<p>Process engineer</p>
+	<p>Resident</p>
+	<p>Quality</p>
+	<p>SQA</p>
+</apex:page>

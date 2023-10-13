@@ -1,0 +1,12 @@
+<apex:page docType="html-5.0" showHeader="False" sidebar="False" controller="SetPDFPreviewController" lightningStylesheets="true">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1">
+                <apex:input type="date" value="{!dat}"/>
+                <apex:commandLink action="{!callPDF}" target="_blank">
+	                <apex:commandButton value="View PDF"/>
+	            </apex:commandLink>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

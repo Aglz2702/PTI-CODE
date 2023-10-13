@@ -1,0 +1,11 @@
+<apex:page standardController="Quote" extensions="QuoteToWOController">
+    <apex:form >
+        <apex:outputText value="ATTENTION!"/><br/>
+        <apex:outputText value="A NEW WO WILL BE CREATED WITH THE FOLLOWING INFORMATION"/><br/><br/><br/>
+        <apex:outputText value="WO NAME: {!Quote.Name}"/><br/>
+        <apex:outputText value="STATUS: DRAFT"/><br/>
+        <apex:outputText value="CUSTOMER: {!Quote.Account.Name}"/><br/>
+        <apex:outputText value="WO PROBLEM: {!Quote.Service_Description__c}"/><br/><br/><br/>
+        <apex:commandButton value="Yes, I want to Convert Quote to WO" action="{!Guardar}"/>
+    </apex:form>
+</apex:page>

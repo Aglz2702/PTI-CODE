@@ -1,0 +1,32 @@
+<!--
+ *  @Copyright      PTI QCS with the use of DoIt Cloud
+ *  @Author         Emmanuel Gonzalez Lopez <egonzalez@ptiqcs.com>
+-->
+
+<apex:page showHeader="true" sidebar="true" lightningStylesheets="true" controller="QuarterAlertController"> 
+    <apex:form id="form1">
+    <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlock >
+            <table>
+                <tr>
+                    <td><apex:outputLabel value="Purchasing and Supplier Operations"/></td>
+                    <td><apex:inputCheckbox value="{!checkPSO}"  label="PSO" onclick=""/></td>
+                </tr>
+            </table>
+            <apex:pageBlockSection columns="1" >
+                <apex:inputCheckbox value="{!verifySend}" label="Send to approve" />
+            </apex:pageBlockSection>
+            <apex:commandButton value="Send 96 hrs Alert" action="{!SendNow}" style="float: right;" status="myAjaxStatus" reRender="form1"/>
+
+            <apex:actionStatus id="myAjaxStatus" ><!--{!$Resource.loading}-->
+                    <apex:facet name="start">
+                            <apex:outputPanel >
+                                <img src="{!$Resource.loading}" width="25" height="25" />
+                                <apex:outputLabel value="Sending..."/>
+                            </apex:outputPanel>            
+                        </apex:facet>
+                </apex:actionStatus>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

@@ -1,0 +1,252 @@
+<!--
+ *  @Copyright      PTI QCS
+ *  @Author         Emmanuel Gonzalez Lopez <egonzalez@ptiqcs.com>
+--> 
+
+<apex:page sidebar="true" renderAs="PDF" controller="SendQuotePDFController2" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+<head>
+    <style  type="text/css">
+            div.header {
+                margin-top: 20px;
+                margin-left: 10px;
+                display: block; 
+                position: running(header);
+        
+            }
+            @page {
+                @top-center { content: element(header) }
+                padding-top: 70px;
+            }
+        @page {
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+        };
+        tr{
+            page-break-inside:avoid; 
+            page-break-after:auto 
+        }
+        .classh5{
+            font-size: 16px;
+            margin-bottom: 1px;
+            margin-top: 1px;
+        }
+        .classtd{
+            /*text-align:justify;*/
+            font-size:10px;
+        }
+        .classFirma{
+            /*text-align:justify;*/
+            font-size:14px;
+        }
+        .classli{
+            text-align:justify;
+            font-size: 14px;
+        }
+        .classlol{
+            font-size: 14px;
+        }
+        .classul{
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+        .classp{
+            text-align:justify;
+            font-size: 10px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            line-height:100%;
+        }
+        
+        .princi{
+            font-size: 14px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            line-height:100%;
+            font-family: arial;
+            background-color: lightgrey;
+        }
+        
+        .asterisco{
+            color: white;
+        }
+        
+        .tdTablas{
+            text-align: center;
+            font-family: Arial Nova Cond Light;
+        }
+        
+        .dos{
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+            font-family: Arial Nova Cond Light;
+            
+        }
+        
+        .nos {
+  			border: black 2px solid;
+        }
+        
+        tr:nth-child(even){
+        	background-color:blue;
+        
+        }
+        
+        
+    </style>
+</head>
+    <div class='header' style="margin:0; margin-left: 0px; padding-left: 0px;">
+        <table class="dos" align="left">
+            <tr><td><apex:image width="150" url="{!$Resource.Logo}"/></td></tr>
+        </table>
+        <br/>
+        <table align="right"  width="50%"> 
+			<tr> 
+				<td align="right" >Date:</td>
+                <td align="center" class="no">{!DAY(presupuestos.Start_date__c)}/{!MONTH(presupuestos.Start_date__c)}/{!YEAR(presupuestos.Start_date__c)}</td> 
+			</tr>
+            <tr>
+            	<td align="right">Quote #:</td>
+                <td align="center" class="no">{!presupuestos.QuoteNumber}</td>
+            </tr>
+            <tr>
+            	<td align="right">Customer ID:</td>
+                <td align="center" class="no">{!DetCuenta.Customer_keyword__c}</td>
+            </tr>
+            <tr>
+            	<td align="right">Valid to:</td>
+                <td align="center" class="no"><b>{!DAY(presupuestos.ExpirationDate)}/{!MONTH(presupuestos.ExpirationDate)}/{!YEAR(presupuestos.ExpirationDate)}</b></td>
+            </tr>
+		</table>
+        
+    </div>
+<body>
+    	<br/>
+  		<table align="left" border="0" width="50%"> 
+			<tr> 
+				<td class="classlol">PTI QUALITY CONTAINMENT SOLUTIONS<br/>18615 SHERWOOD DETROIT<br/>MI 48234</td>
+            </tr>
+            <tr>
+                <td class="classli">https://www.ptiqcs.com/</td>
+			</tr> 
+            <tr>
+                <td class="classli">Phone: +52 1 (222) 705 6713</td>
+			</tr>
+		</table> 
+    
+		<table align="left" border="0" width="50%"> 
+        <th style="color:red;"><b>CUSTOMER</b></th>
+        	<tr>
+                <td class="classli"><font style="text-transform: lowercase;">{!presupuestos.Account.Billing_name__c},<br/> {!presupuestos.Account.BillingCountry} {!presupuestos.Account.BillingCity} {!presupuestos.Account.BillingState} <br/>{!presupuestos.Account.BillingStreet} {!presupuestos.Account.BillingPostalCode}</font></td>
+        	</tr>
+            <tr>
+                <td class="classli">Phone: {!DetCuenta.Phone}</td>
+			</tr> 
+		</table> 
+    <br/><br/><br/><br/><br/><br/> <hr/><br/>
+    	<table width="100%">
+        	<tr>
+                <td align="left" width="30%" class="classlol"><b>SERVICE DESCRIPTION:</b></td>
+                <td align="left" width="70%" class="classlol">{!presupuestos.Service_Description__c}</td>
+            </tr>
+            <br/><hr/><br/>
+            <tr>
+                <td align="center" class="classlol"><b>SERVICE FREQUENCY</b> </td>
+                <td align="center" class="classlol"><b>SERVICE PERIOD</b></td>
+                <td align="center" class="classlol"><b>PERSONNEL REQUERIMENTS</b></td>
+            </tr>
+            <tr>
+                <td align="center" class="classlol">{!presupuestos.Service_Frecuency__c}</td>
+                <td align="center" class="classlol">{!presupuestos.Service_Period__c}</td>
+                <td align="center" class="classlol">{!presupuestos.Personnel_Requeriments__c}</td>
+            </tr>
+            <br/><hr/><br/>
+    	</table>
+    	<br/> <br/>
+    
+    		<table cellpadding="12" cellspacing="0">
+                <tr>
+                    <td style="background-color:#7f7f7f; color:White;" width="600"><b>Service</b></td>
+                    <td style="background-color:#7f7f7f; color:White;" align="center" width="200"><b>Hours/Qty</b></td>
+                    <td style="background-color:#7f7f7f; color:White;" align="center" width="200"><b>Cost</b></td>
+                    <td style="background-color:#7f7f7f; color:White;" align="right" width="300"><b>TOTAL COST</b></td>
+                </tr>
+                <apex:repeat value="{!ParPresu}" var="BI">
+            	<tr>
+                    <td>{!BI.Product2.Name}</td>
+                    <td align="center">{!BI.Quantity}</td>
+                    <td align="right">$  {!BI.UnitPrice}</td>
+                    <td align="right">$  {!BI.TotalPrice}</td>
+                </tr>
+                </apex:repeat>
+                <tr>
+                	<td colspan="3" align="right" style="background-color:#7f7f7f; color:White;" width="600"><b>Total</b></td>
+                	<td align="right" style="background-color:#7f7f7f; color:White;" width="600">$  {!presupuestos.SubTotal} USD</td>
+          		</tr>
+    		</table><br/>
+    		<p style="text-align:justify;" class="classli"><i><b>3CPR Services Level 2 at Suppliers Facilities:  Minimum billable time per activity of 6 hours per inspector per day</b></i></p>
+    <div style="page-break-before: always;">
+        <p style="text-align:justify;" class="classli"><b>Terms and Conditions:</b></p>
+        
+    	<p style="text-align:justify;" class="classli"><b>Rates</b></p>
+         <p style="margin:-2.5% 0; text-align:justify;" class="classli">
+            The rates apply to the location defined in this contract.<br/>Any hours worked over 8 hr/day or 48hr/week Mon-Sat will be invoiced at 2x the base hourly rate. All hours worked on Sunday or holidays will be invoiced at 3x the base hourly rate.<br/>For the avoidance of doubt, should the need of the Customer change to higher services frequencies, above prices shall apply for the invoicing based on the above table.
+        </p><br/>
+            
+        <p style="text-align:justify;" class="classli"><b>Setting Up</b></p>
+         <p style="margin:-2.5% 0; text-align:justify;" class="classli">
+			The Services will be carried out under the operational supervision of the PTI.<br/>
+			A kick-off meeting will be organized to agree, organizational details, reporting requirements, communication and escalation rules, and operational processes. The outputs of said meeting shall be formalized and agreed upon by both parties in a meeting memo.<br/>
+			Training as needed will be provided by the Customer to ensure PTI QCS has adequate knowledge of all required processes specific to the Customer. The program consists of the following materials: product specification/knowledge, production knowledge, processes, failure catalogs, quality history, outgoing inspection, and logistics.
+        </p><br/>
+            
+        <p style="text-align:justify;" class="classli"><b>Payment Conditions</b></p>
+         <p style="margin:-2.5% 0; text-align:justify;" class="classli">
+			The Customer will be invoiced weekly according to the hours and expenses documented in the Activity Report Any discrepancy identified by the Customer should be communicated to PTI QCS within 24 hours.<br/>
+			Payment terms are <u><i><b>{!presupuestos.Payment_Terms__c}</b></i></u> net.
+        </p><br/>
+            
+        <p style="text-align:justify;" class="classli"><b>Travel Expenses</b></p>
+         <p style="margin:-2.5% 0; text-align:justify;" class="classli">
+			The calculation of travel expenses will be established from the service location site if needed.<br/>
+			All other expenses (hotel, rental car, flights, etc)  when required, will be charged @ cost + 10%. 
+        </p><br/>
+            
+        <p style="text-align:justify;" class="classli"><b>Perdiem</b></p>
+         <p style="margin:-2.5% 0; text-align:justify;" class="classli">
+			The overnight expenses, for working away from the PTI QCS site, are established $45/day.
+        </p><br/>
+            
+        <p style="text-align:justify;" class="classli"><b>Warranty / Complains</b></p>
+         <p style="margin:-2.5% 0; text-align:justify;" class="classli">
+			The visual Sorting method is not 100% reliable and may vary from part to part depending on characteristics, material nature, and conditions. According to AIAG standard visual Sorting can only catch 97% defects with two layers of Sorting which is PTI standard.<br/>
+			Cath rate will depend on AIAG charts and shall be agreed with customer before the SOP".<br/>
+			PTI Liability limited to re-sorting parts at the customer facility.
+         </p><br/>
+            
+         <p style="text-align:justify;" class="classli"><b>Other terms and conditions:</b></p>
+         <p style="margin:-2.5% 0; text-align:justify;" class="classli">
+			The information contained herein was prepared based on our interpretation of your requirements and our experience.  We have provided suggestions which we consider valuable and thus expect that the information provided is not revealed to other parties.  Please review this proposal carefully and let us know if you find deficiencies, errors, omissions, or misinterpretations of your requirements.  If you would like us to consider alternative solutions to meet your needs, please let us know.  We value your comments and appreciate your business.<br/>        
+        	No VAT Tax 16% Included in cost.
+        </p><br/>
+          
+            
+             <table width="{!If(checkCOTIZACION ,60,30) }%" cellspacing="12" style="border-collapse: separate;" align="right">
+            <tr style="height:5em;">
+                <td style="width: 50%; display: {!If(checkCOTIZACION ,'','none') }"></td>
+                <td style="width: 50%"></td>
+                <!--<td style="width: 33%"></td>-->
+            </tr>
+            <tr style="text-align: center">
+                <td style="border-top:1px solid black; display: {!If(checkCOTIZACION ,'','none') }" class="classFirma">-{!presupuestos.Contact.Name}-<br/>{!presupuestos.Account.Billing_name__c}</td>
+                <!--<td style="border-top:1px solid black;" class="classFirma">PTIQCS LLC<br/>Per:___________________(CONTRATISTA)</td>-->
+            </tr>
+        </table>
+        </div>
+    <br/>
+    
+ </body>
+    <div class="footer" align="center" style="font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif">
+    </div>
+    
+</apex:page>

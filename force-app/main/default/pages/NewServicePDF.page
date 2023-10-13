@@ -1,0 +1,136 @@
+<!--
+ *  @Copyright      PTI QCS with the use of DoIT Cloud
+ *  @Author         Emmanuel Gonzalez Lopez <egonzalez@ptiqcs.com>
+--> 
+
+<apex:page sidebar="true" renderAs="PDF" controller="dsPDFControllerWO" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+<head>
+   	<style  type="text/css">
+   			div.header {
+	       		margin-top: 20px;
+	       		margin-left: 10px;
+				display: block; 
+				position: running(header);
+			}
+			@page {
+				@top-center { content: element(header) }
+				padding-top: 70px;
+			}
+       	@page {
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+       	};
+       	tr{
+       		page-break-inside:avoid; 
+            page-break-after:auto 
+       	}
+       	.classh5{
+       		font-size: 12px;
+       		margin-bottom: 1px;
+       		margin-top: 1px;
+       	}
+       	.classtd{
+       		/*text-align:justify;*/
+       		font-size:10px;
+       	}
+       	.classFirma{
+       		/*text-align:justify;*/
+       		font-size:14px;
+       	}
+       	.classli{
+       		text-align:justify;
+       		font-size: 10px;
+       	}
+       	.classul{
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       	}
+       	.classp{
+       		text-align:justify;
+       		font-size: 10px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+       	}
+        
+        .princi{
+       		font-size: 14px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+			font-family: arial;
+        	background-color: lightgrey;
+       	}
+        
+   	</style>
+</head>
+<body>
+    <div class='header'><table width="100%">
+ 		<tr>
+ 			<td width="50%">&nbsp;</td>
+	      	<td align="right"  bgcolor="#FFFFFF"><apex:image width="200" url="{!$Resource.Logo}"/></td>
+	    </tr>
+ 	</table></div>
+
+
+	<div style="page-break-before: avoid;">
+		<div style="page-break-after: always;">
+		<h5 style="text-align: center;" class="classh5">ABOUT YOUR NEW SERVICE WITH US</h5>
+		<table style="width: 90%">
+			<tr>
+				<td style="width:40%;" class="classtd"><b>-- CLIENT INFORMATION --</b></td>
+				<td style="width:20%;" class="classtd">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width:40%; vertical-align: text-top;" class="classtd"><b>{!wOrder.Customer__r.Name}, {!wOrder.Customer__r.Billing_name__c},<br/> {!wOrder.Customer__r.BillingCountry} {!wOrder.Customer__r.BillingCity} {!wOrder.Customer__r.BillingState} {!wOrder.Customer__r.BillingStreet} {!wOrder.Customer__r.BillingPostalCode}<br/></b></td>
+				<td style="width:20%;" class=".classtd">&nbsp;</td>
+			</tr>
+		</table>
+            <h5 class="classh5">PROJECT NUMBER: <mark class="princi">({!wOrder.Project_Id__c})</mark></h5> 
+            
+            <h5 class="classh5">OPENED ON: <mark class="princi">{!DAY(wOrder.Start_date__c)}-{!MONTH(wOrder.Start_date__c)}-{!YEAR(wOrder.Start_date__c)}</mark></h5>
+            
+            <h5 class="classh5">SUPPLIER: <mark class="princi">{!wOrder.Customer__r.Name}</mark></h5>
+            
+            		<table width="100%">
+ 						<tr>
+ 							<td width="50%">&nbsp;</td>
+	      					
+	    				</tr>
+ 					</table>
+
+		<h5 class="classh5">Protect the plant is our main goal and priority; we need your support to send us your formal request in writing (sign this document) to continue with the project (Sorting) above described so all activities can continue.</h5>
+
+		<h5 class="classh5">With your approval, we’ll address this matter to 3CPR management to obtain the Purchase Order directly from FCA.</h5>
+
+            <h5 class="classh5">If we do not receive your reply indicating that the sort must continue by COB today <mark class="princi"><apex:outputText value="{0,date,dd'/'MM'/'yyyy}"><apex:param value="{!NOW()}" /></apex:outputText></mark>, we’ll be forced to place the project On HOLD as the policy establishes staring tomorrow <mark class="princi"><apex:outputText value="{0,date,dd'/'MM'/'yyyy}"><apex:param value="{!TODAY()+1}" /></apex:outputText></mark> Until the PO requirement is fulfilled.</h5>
+
+		<h5 class="classh5">Thanks in advance for all your help and support and we’ll look forward to your prompt reply and approval to continue.</h5>
+            
+            <ul>
+            <li></li>
+                <p> The amount pending today is for: <mark class="princi">{!wOrder.Balance_to_be_invoiced__c}</mark></p>
+            <li></li>
+            <li></li>
+        </ul>
+            
+    			
+			
+            
+            <table width="{!If(checkSQE ,60,30) }%" cellspacing="12" style="border-collapse: separate;" align="right">
+			<tr style="height:5em;">
+				<td style="width: 50%; display: {!If(checkSQE ,'','none') }"></td>
+				<td style="width: 50%"></td>
+				<!--<td style="width: 33%"></td>-->
+			</tr>
+			<tr style="text-align: center">
+				<td style="border-top:1px solid black; display: {!If(checkSQE ,'','none') }" class="classFirma">-SQE-</td>
+				<!--<td style="border-top:1px solid black;" class="classFirma">PTIQCS LLC<br/>Per:___________________(CONTRATISTA)</td>-->
+			</tr>
+		</table>
+	</div>
+</div>
+
+
+ </body>
+ <div class="footer" align="center" style="font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif"/>
+</apex:page>

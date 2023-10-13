@@ -1,0 +1,567 @@
+<!--
+ *  @Copyright      PTI QCS
+ *  @Author         Emmanuel Gonzalez <egonzalez@ptiqcs.com>
+--> 
+
+<apex:page sidebar="true" renderAs="PDF" controller="ContratoPDFController" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+<head>
+   	<style  type="text/css">
+   			div.header {
+        		text-align: left;
+	       		margin-top: 20px;
+	       		margin-left: 10px;
+				display: block; 
+				position: running(header);
+			}
+			@page {
+				@top-center { content: element(header) }
+				padding-top: 70px;
+			}
+       	@page {
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+       	};
+       	tr{
+       		page-break-inside:avoid; 
+            page-break-after:auto 
+       	}
+       	.classh5{
+       		font-size: 11px;
+       		margin-bottom: 3px;
+       		margin-top: 3px;
+       	}
+       	.classtd{
+       		/*text-align:justify;*/
+       		font-size:10px;
+       	}
+       	.classFirma{
+       		/*text-align:justify;*/
+       		font-size:14px;
+       	}
+       	.classli{
+       		text-align:justify;
+       		font-size: 10px;
+       	}
+       	.classul{
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       	}
+       	.classp{
+       		text-align:justify;
+       		font-size: 10px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+       	}
+        
+       .dos{
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+            
+        }
+        
+        th{
+            font-size: 14px;
+            font-family:Times New Roman; 
+        
+
+        }
+        
+        .title{
+            
+            font-size: 14px;
+            font-family:Times New Roman;
+             border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+            
+        }
+        
+        td{
+            font-size: 15px;
+            font-family:Times New Roman;
+            text-align: left;
+
+        }
+        
+        .tdTablas{
+            font-size: 15px;
+            font-family:Times New Roman;
+            text-align: center;
+            
+        }
+        
+        .negrita{
+            
+            font-weight:bold;
+        }
+        
+        .asterisco{
+            color: white;
+        }
+        
+   	</style>
+</head>
+<body>
+    
+	<div class='header'><table>
+ 		<tr>
+ 			<td>&nbsp;</td>
+	      	<td bgcolor="#FFFFFF"><apex:image width="200" url="{!$Resource.Logo}"/></td>
+	    </tr>
+ 	</table></div>
+	<div style="page-break-after: always;">
+<br/><br/>
+        <table class="dos">
+        <tr>
+            <td class="negrita">CUSTOMER NAME:</td>
+            <td>{!wOrder.Customer__r.Name}</td>
+        </tr>
+    </table>
+        <br/>
+ 	<table>
+       <th> WORK ORDER DETAILS</th> 
+        
+    </table>
+        <br/>
+        <hr/>
+ 	<table class="dos">
+        <tr>
+            <td class="negrita">WORK ORDER CODE:</td>
+            <td>{!wOrder.Name}</td>
+            <td colspan="2" class="asterisco">**********</td>
+            <td class="negrita">ESTIMATED RATE:</td>
+            <td>{!wOrder.Rate_Estimado__c} {!wOrder.Estimated_Rate_Type__c}</td>
+        </tr>
+        
+        <tr>
+            <td class="negrita">START DATE:</td>
+            <td>{!DAY(wOrder.Start_date__c)}-{!MONTH(wOrder.Start_date__c)}-{!YEAR(wOrder.Start_date__c)}</td>
+            <td colspan="2">    </td>
+            <td class="negrita">ASSIGNED SHIFTS:</td>
+            <td>{!wOrder.Turno__c}</td>
+        </tr>
+        
+        <tr>
+            <td class="negrita">PROYECT ID:</td>
+            <td>{!wOrder.Project_Id__c}</td>
+            <td colspan="2">    </td>
+            <td class="negrita">SHIFT MODE:</td>
+            <td>{!wOrder.Shift_Type__c}</td>
+        </tr>
+        
+        <tr>
+            <td class="negrita">TYPE:</td>
+            <td>{!wOrder.Type__c}</td>
+        </tr>
+    </table>
+    <br/>
+        
+        	<table>
+       <th> ASSIGNED RESOURCES</th> 
+    </table>
+        
+    <table class="dos" width="100%">
+        <th class="tdTablas">SUPERVISOR</th>
+        <th class="tdTablas">INSPECTOR</th>
+        <th class="tdTablas">FORKLIFT DRIVE</th>
+        
+	<apex:repeat value="{!wOrder}" var="BI">
+        <tr>
+            <td class="tdTablas">{!wOrder.Supervisor__c}</td>
+            <td class="tdTablas">{!wOrder.Inspector__c}</td>
+            <td class="tdTablas">{!wOrder.Montacargas__c}</td>
+        </tr>
+	</apex:repeat>
+    </table>
+     <br/>
+        
+ 	
+    <hr/>
+	<br/>
+<br/>
+ 	<table class="dos" width="100%">
+        <th class="tdTablas">PROBLEM</th>
+        
+        <tr>
+            <td>{!wOrder.Problem__c}</td>
+        </tr>
+    </table><br/><br/>
+        <hr/>
+     <br/><br/>
+           
+ 	<table width="100%">
+        <th text-align="left">PART NUMBERS</th>
+    </table>
+        
+    <table class="dos" width="100%">
+        <tr>
+                <apex:variable var="index" value="{!1}" />
+	           <apex:repeat value="{!parts}" var="p">
+                    <td class="tdTablas">{!p.Part_number__c}</td>
+                <apex:outputText escape="false" rendered="{!MOD(index, 4) == 0}" value="</tr><tr>"/>
+                <apex:variable var="index" value="{!index + 1}" />
+                </apex:repeat>
+        </tr>
+</table>
+        <hr/>
+	<br/><br/>
+        
+	 <table>
+       <th>BILLABLE ITEMS</th> 
+    </table>
+        
+    <table class="dos" width="100%">
+        <th class="tdTablas">NAME</th>
+        <th class="tdTablas">UNIT COST</th>
+      
+	<apex:repeat value="{!bItems}" var="BI">  
+        <tr>
+            <td class="tdTablas">{!BI.Name}</td>
+            <td class="tdTablas">{!BI.Unit_cost__c}</td>
+        </tr>
+	</apex:repeat>
+    </table>
+        <hr/>
+    <br/><br/><br/>
+        
+ <br/><br/><br/><br/>
+        
+	<table width="100%" cellspacing="3" style="border-collapse: separate;" align="center">
+		<tr style="text-align: center" align="center">
+            <apex:repeat value="{!ListaContactos}" var="listaC">
+                <td width="{!tamanoLista/100}%" style="border-top:1px solid black; text-align: center">{!listaC.Contact__r.Name}<br/>--{!listaC.Role__c}--</td>
+			</apex:repeat>
+		</tr>
+	</table>
+    </div>
+	<div style="page-break-before: avoid;">
+		<div style="page-break-after: always;">
+		<h5 style="text-align: center;" class="classh5">CONTRATO GENERAL DE SERVICIOS</h5>
+		<p class="classp" style="text-align:left;">ESTE CONTRATO GENERAL DE SERVICIOS (el “Acuerdo”) fechado el <u><b>{!DAY(wOrder.Start_date__c)}</b></u> del mes de <u><b>{!CASE(MONTH(wOrder.Start_date__c),1, 'Enero',2, "Febrero",3, "Marzo",4, "Abril",5, "Mayo",6, "Junio",7, "Julio",8, "Agosto",9, "Septiembre",10, "Octubre",11, "Noviembre",12, "Diciembre","None")}</b></u> , <u><b>{!YEAR(wOrder.Start_date__c)}</b></u><br/>
+			ENTRE:</p>
+		<table style="width: 90%">
+			<tr>
+				<td style="width:40%;" class="classtd"><b>CLIENTE</b></td>
+				<td style="width:20%;" class="classtd">&nbsp;</td>
+				<td style="width:40%;" class="classtd"><b>PROVEEDOR</b></td>
+			</tr>
+			<tr>
+				<td style="width:40%; vertical-align: text-top;" class="classtd"><b>{!wOrder.Customer__r.Name}, {!wOrder.Customer__r.Billing_name__c},<br/> {!wOrder.Customer__r.BillingCountry} {!wOrder.Customer__r.BillingCity} {!wOrder.Customer__r.BillingState} {!wOrder.Customer__r.BillingStreet} {!wOrder.Customer__r.BillingPostalCode}<br/>-TAX ID-</b></td>
+				<td style="width:20%;" class=".classtd">&nbsp;</td>
+				<td style="width:40%; vertical-align: text-top;" class="classtd">PTI Quality Containment Sollutions, LLC<br/> 18615 Shwerood, Ave, Detroit MI 48234<br/>PTI Tax Id: 043782103</td>
+			</tr>
+		</table>
+		<h5 class="classh5">ANTECEDENTES</h5>
+		<ul class="classul">
+			<li class="classli">El Cliente considera que el Contratista tiene las calificaciones, la experiencia y las habilidades necesarias para proporcionar servicios al Cliente.</li>
+			<li class="classli">El Contratista está de acuerdo en proporcionar dichos servicios al Cliente en los términos y condiciones establecidos en este Acuerdo.</li>
+			<li class="classli">EN CONSIDERACIÓN de los asuntos descritos anteriormente y de los beneficios y obligaciones mutuos establecidos en este Acuerdo, el recibo y la suficiencia de las cuales se reconocen aquí, el Cliente y el Contratista (individualmente, la "Parte" y colectivamente las "Partes" de este Acuerdo). de acuerdo de la siguiente manera:</li>
+		</ul>
+		<h5 class="classh5">SERVICIOS PRESTADOS</h5>
+		<ul class="classul">
+			<li class="classli">Por la presente, el Cliente acepta contratar al Contratista para que le brinde los siguientes servicios (los "Servicios"): Para realizar los servicios de calidad requeridos por el cliente.</li>
+			<li class="classli">Los Servicios también incluirán cualquier otra tarea que las Partes puedan acordar. El Contratista se compromete a proporcionar dichos Servicios al Cliente.</li>
+		</ul>
+		<h5 class="classh5">PLAZO DE ACUERDO</h5>
+		<ul class="classul">
+			<li class="classli">El Término de este Acuerdo (el "Término") comenzará en la fecha de firma del mismo y permanecerá en pleno vigor y efecto hasta la finalización de los Servicios, sujeto a la terminación anterior según lo dispuesto en este Acuerdo. El Término podrá extenderse con el consentimiento por escrito de las Partes.</li>
+			<li class="classli">En el caso de que cualquiera de las Partes desee rescindir este Acuerdo antes de la finalización de los Servicios, esa Parte puede hacerlo inmediatamente mediante notificación por escrito a la otra Parte.</li>
+			<li class="classli">El Cliente acepta que el Contratista puede rescindir el contrato sin ninguna otra responsabilidad con el Contratista, en caso de que el Cliente incumpla los términos de pago establecidos en este documento.</li>
+		</ul>
+		<h5 class="classh5">ACUERDO</h5>
+		<p class="classp">Las Partes acuerdan hacer todo lo necesario para garantizar que los términos de este Acuerdo surtan efecto.</p>
+		<h5 class="classh5">MONEDA</h5>
+		<p class="classp">Excepto que se disponga lo contrario en este Acuerdo, todos los montos monetarios a los que se hace referencia en este Acuerdo están en USD (dólares estadounidenses).</p>
+		<h5 class="classh5">COMPENSACIÓN</h5>
+		<ul class="classul">
+			<li class="classli">El Contratista cobrará al Cliente por los Servicios a una tarifa de $ 13.28 por hora (la "Compensación").</li>
+			<li class="classli">El Cliente será facturado cuando los Servicios estén completos.</li>
+			<li class="classli">Las facturas enviadas por el Contratista al Cliente se deben presentar una vez recibidas.</li>
+			<li class="classli">En el caso de que el Cliente finalice este Acuerdo antes de la finalización de los Servicios, pero cuando los Servicios se hayan realizado parcialmente, el Contratista tendrá derecho a un pago prorrateado de la Compensación hasta la fecha de terminación, siempre que no haya habido incumplimiento. de contrato por parte del Contratista.</li>
+			<li class="classli">La Compensación según lo establecido en este Acuerdo no incluye el impuesto a las ventas u otros deberes aplicables según lo exija la ley. Cualquier impuesto sobre las ventas y los deberes exigidos por la ley se cargarán al Cliente además de la Compensación.</li>
+		</ul>
+		<h5 class="classh5">REEMBOLSO DE GASTOS</h5>
+		<ul class="classul">
+			<li class="classli">El Contratista será reembolsado de vez en cuando por los gastos razonables y necesarios incurridos por el Contratista en relación con la prestación de los Servicios. El Contratista sólo recibirá un reembolso por los gastos presentados de acuerdo con las siguientes pautas: Gastos de viaje y viáticos</li>
+		</ul>
+		<h5 class="classh5">SANCIONES POR DEMORA EN PAGOS</h5>
+		<p class="classp"><span style="text-align: left;">Cualquier pago atrasado generará una tarifa de 5.00% por mes sobre el monto pendiente.</span><br/>El cliente acepta pagar todos los honorarios razonables de abogado u otros honorarios o costos si la cuenta se coloca con un abogado para cobro.</p>
+		<h5 class="classh5">OBLIGACIÓN DE PAGO</h5>
+		<p class="classp">Por la presente, <b>{!ListaFinanzas[0].Contact__r.Name}</b> garantiza personalmente el pago de todas las obligaciones del Cliente. Se compromete a obligarse a pagar a pedido cualquier suma que se deba en virtud de este acuerdo cuando el Cliente no pague lo mismo de acuerdo con los términos de pago establecidos anteriormente. Esta garantía será una garantía continua e irrevocable y se podrán tomar medidas contra <b>{!ListaFinanzas[0].Contact__r.Name}</b> por cualquier falta de pago sin previo aviso.</p>
+		<h5 class="classh5">CONFIDENCIALIDAD</h5>
+		<ul class="classul">
+			<li class="classli">La información confidencial (la "Información confidencial") se refiere a cualquier dato o información relacionada con el negocio del Cliente que razonablemente se consideraría como propietario del cliente, incluidos, entre otros, registros contables, procesos comerciales y registros del cliente y eso no se conoce generalmente en la industria del Cliente y donde se podría esperar razonablemente que la divulgación de esa Información Confidencial cause daño al Cliente.</li>
+			<li class="classli">El Contratista acuerda que no divulgará, divulgará, revelará, informará o usará, para ningún propósito, cualquier Información Confidencial que el Contratista haya obtenido, excepto según lo autorice el Cliente o según lo exija la ley. Las obligaciones de confidencialidad se aplicarán durante el Plazo y sobrevivirán indefinidamente a la terminación de este Acuerdo.</li>
+			<li class="classli">Toda la información y el material escritos y orales divulgados o proporcionados por el Cliente al Contratista en virtud de este Acuerdo son Información confidencial, independientemente de si se proporcionó antes o después de la fecha en que se realizó este Acuerdo o cómo se proporcionó al Contratista.</li>
+		</ul>
+		<h5 class="classh5">PROPIEDAD INTELECTUAL</h5>
+		<ul class="classul">
+			<li class="classli">Toda la propiedad intelectual y el material relacionado (la "Propiedad intelectual") que se desarrolle o produzca conforme a este Acuerdo, será propiedad del Contratista. Al Cliente se le otorga una licencia de uso limitado no exclusiva de esta Propiedad Intelectual.</li>
+			<li class="classli">El título, los derechos de autor, los derechos de propiedad intelectual y los derechos de distribución de la propiedad intelectual permanecen exclusivamente con el contratista.</li>
+		</ul>
+		<h5 class="classh5">DEVOLUCIÓN DE LA PROPIEDAD</h5>
+		<ul class="classul">
+			<li class="classli">Al vencimiento o terminación de este Acuerdo, el Contratista devolverá al Cliente cualquier propiedad, documentación, registro o Información Confidencial que sea propiedad del Cliente.</li>
+			<li class="classli">En el caso de que el Cliente finalice este Acuerdo antes de completar los Servicios, el Contratista tendrá derecho a la recuperación del sitio o las instalaciones donde se llevaron a cabo los Servicios, o cualquier material o equipo que sea propiedad del Contratista o, cuando se acuerde entre las Partes, a indemnización en lugar de recuperación.</li>
+		</ul>
+		<br/>
+		<h5 class="classh5">CAPACIDAD / CONTRATISTA INDEPENDIENTE</h5>
+		<ul class="classul">
+			<li class="classli">Al proporcionar los Servicios en virtud de este Acuerdo, se acuerda expresamente que el Contratista actúa como un contratista independiente y no como un empleado. El Contratista y el Cliente reconocen que este Acuerdo no crea una sociedad o empresa conjunta entre ellos y es exclusivamente un contrato de servicio. No se requiere que el Cliente pague o haga contribuciones a ningún impuesto de seguridad social, local, estatal o federal, compensación por desempleo, compensación al trabajador, prima de seguro, participación en los beneficios, pensión o cualquier otro beneficio de empleado para el Contratista durante el Término. El Contratista es responsable de pagar y cumplir con los requisitos de notificación de todos los impuestos locales, estatales y federales relacionados con los pagos realizados al Contratista en virtud de este Acuerdo.</li>
+		</ul>
+		<h5 class="classh5">NOTIFICACIONES</h5>
+		<dl class="classul">
+			<dt class="classli">Todos los avisos, solicitudes, demandas u otras comunicaciones requeridas o permitidas por los términos de este Acuerdo se entregarán por escrito y se entregarán a las Partes en las siguientes direcciones:</dt>
+			<dd class="classli" style="text-align: left;">A) <b>{!wOrder.Customer__r.Name}, {!wOrder.Customer__r.Billing_name__c}, <br/>{!wOrder.Customer__r.BillingCountry} {!wOrder.Customer__r.BillingCity} {!wOrder.Customer__r.BillingState} {!wOrder.Customer__r.BillingStreet} {!wOrder.Customer__r.BillingPostalCode}<br/>-TAX ID-</b></dd>
+			<dd class="classli" style="text-align: left;">B) PTI Quality Containment Sollutions, LLC<br/>18615 Shwerood, Ave, Detroit MI 48234<br/>PTI Tax Id: 043782103</dd>
+			<dD class="classli">O a la otra dirección, ya que cualquiera de las Partes puede, de vez en cuando, notificar a la otra, y se considerará que se ha entregado correctamente (a) inmediatamente después de recibir el servicio de manera personal, (b) dos días después de haber sido depositado en el servicio postal si el servicio está registrado correo, o (c) el día siguiente después de ser depositado con un mensajero durante la noche.</dD>
+		</dl>
+		<h5 class="classh5">INDEMNIZACIÓN</h5>
+		<ul class="classul">
+			<li class="classli">Excepto en la medida en que se pague en la liquidación de cualquier póliza de seguro aplicable, y en la medida permitida por la ley aplicable, cada Parte acuerda indemnizar y eximir de responsabilidad a la otra Parte y a sus respectivos directores, accionistas, afiliados, funcionarios, agentes, empleados y sucesores permitidos y asigna contra todos y cada uno de los reclamos, pérdidas, daños, responsabilidades, sanciones, daños punitivos, gastos, honorarios legales razonables y costos de cualquier tipo o monto que resulten de o surjan de cualquier acto u omisión de la parte indemnizadora , sus respectivos directores, accionistas, afiliados, funcionarios, agentes, empleados y sucesores y cesionarios permitidos que ocurran en relación con este Acuerdo. Esta indemnización sobrevivirá a la terminación de este Acuerdo.</li>
+		</ul>
+		<h5 class="classh5">MODIFICACIÓN DEL ACUERDO</h5>
+		<ul class="classul">
+			<li class="classli">Cualquier enmienda o modificación de este Acuerdo u obligación adicional asumida por cualquiera de las Partes en relación con este Acuerdo solo será vinculante si se evidencia por escrito y está firmada por cada Parte o un representante autorizado de cada Parte.</li>
+		</ul>
+		<h5 class="classh5">TIEMPO DE LA ESENCIA</h5>
+		<ul class="classul">
+			<li class="classli">El tiempo es esencial en este Acuerdo. Ninguna extensión o variación de este Acuerdo funcionará como una exención de esta disposición.</li>
+		</ul>
+		<h5 class="classh5">ASIGNACIÓN</h5>
+		<ul class="classul">
+			<li class="classli">El Contratista no podrá, voluntariamente o por ley, ceder o transferir sus obligaciones en virtud de este Acuerdo sin el consentimiento previo por escrito del Cliente.</li>
+		</ul>
+		<h5 class="classh5">ACUERDO</h5>
+		<ul class="classul">
+			<li class="classli">Se acuerda que no hay ninguna representación, garantía, acuerdo de garantía o condición que afecte a este Acuerdo, excepto lo dispuesto expresamente en este Acuerdo.</li>
+		</ul>
+		<h5 class="classh5">CUMPLIMIENTO OBLIGATORIO</h5>
+		<ul class="classul">
+			<li class="classli">Este Acuerdo redundará en beneficio de y será vinculante para las Partes y sus respectivos herederos, ejecutores, administradores y sucesores y cesionarios permitidos.</li>
+		</ul>
+		<h5 class="classh5">TÍTULOS / TITULARES</h5>
+		<ul class="classul">
+			<li class="classli">Los encabezados se insertan para la conveniencia de las Partes, pero no deben considerarse al interpretar este Acuerdo.</li>
+		</ul>
+		<h5 class="classh5">GÉNERO</h5>
+		<ul class="classul">
+			<li class="classli">Las palabras en singular significan e incluyen el plural y viceversa. Las palabras en el masculino significan e incluyen el femenino y viceversa.</li>
+		</ul>
+		<h5 class="classh5">JURISDICCIÓN</h5>
+		<ul class="classul">
+			<li class="classli"><span style="text-align: left;">Este Acuerdo se regirá e interpretará de acuerdo con las leyes del Estado de Michigan. </span><br/>Este Contrato y cualquier reclamo o acción relacionada con el mismo se regirán e interpretarán de acuerdo con las leyes del Estado de Michigan, sin tener en cuenta sus disposiciones de conflicto de leyes.</li>
+		</ul>
+		<h5 class="classh5">RENUNCIA DE CONTRA-RECLAMACIONES</h5>
+		<ul class="classul">
+			<li class="classli">El Cliente renuncia a todos y cada uno de sus derechos a interponer cualquier reclamo, deducción, compensación o contrademanda de cualquier naturaleza en cualquier disputa con respecto al Acuerdo. Cualquier reclamo, deducción, compensación o contrademanda debe presentarse como una acción separada sujeta a la elección de la ley, la selección del foro y las disposiciones de renuncia jurisdiccional de este acuerdo.</li>
+		</ul>
+		<h5 class="classh5">SEPARACIÓN</h5>
+		<ul class="classul">
+			<li class="classli">En el caso de que alguna de las disposiciones de este Acuerdo se considere inválida o inaplicable en su totalidad o en parte, todas las demás disposiciones seguirán siendo válidas y ejecutables con las partes inválidas o inejecutables separadas del resto.</li>
+		</ul>
+		<h5 class="classh5">RENUNCIA</h5>
+		<ul class="classul">
+			<li class="classli">La renuncia por cualquiera de las Partes de un incumplimiento, demora u omisión de cualquiera de las disposiciones de este Acuerdo por parte de la otra Parte no se interpretará como una renuncia a cualquier incumplimiento posterior de la misma o de otras disposiciones.</li>
+		</ul>
+		<p class="classp">EN TESTIMONIO DE LO CUAL, las Partes han colocado debidamente sus firmas y el sello en este <u><b>{!DAY(wOrder.Start_date__c)}</b></u> día de <u><b>{!CASE(MONTH(wOrder.Start_date__c),1, 'Enero',2, "Febrero",3, "Marzo",4, "Abril",5, "Mayo",6, "Junio",7, "Julio",8, "Agosto",9, "Septiembre",10, "Octubre",11, "Noviembre",12, "Diciembre","None")}</b></u>, <u><b>{!YEAR(wOrder.Start_date__c)}</b></u>.</p>
+		<h5 class="classh5">Por favor actualizanos tus datos</h5>
+            <table width="100%" cellspacing="3" style="border-collapse: separate;" align="center" class="classli">
+            	<tr class="classli">
+                	<td>Gerente de Calidad: __________________________________________</td>
+                </tr>
+                <tr class="classli">
+                    <td>Gerente de Compras: __________________________________________</td>
+                </tr>
+                <tr class="classli">
+                    <td>Gerente de Finanzas: __________________________________________</td>
+            	</tr>
+                <tr class="classli">
+                    <td>Gerente de Cuentas por pagar: __________________________________________</td>
+                </tr>
+                <tr class="classli">
+                    <td>Director General: __________________________________________</td>
+                </tr>
+            </table>
+		<table width="25%" cellspacing="3" style="border-collapse: separate;" align="center">
+         <tr>
+             <td width="25%" height="50px"></td>
+         </tr>
+		<tr style="text-align: center" align="center">
+            <apex:repeat value="{!ListaFinanzas}" var="listaFinanza">
+                <td width="25%" style="border-top:1px solid black; text-align: center">{!listaFinanza.Contact__r.Name}<br/>--{!listaFinanza.Role__c}--</td>
+			</apex:repeat>
+		</tr>
+	</table>
+	</div>
+</div>
+
+	<!-- english -->
+
+	<div style="page-break-before: avoid;">
+		<h5 style="text-align: center;" class="classh5">GENERAL SERVICE AGREEMENT</h5>
+		<p class="classp" style="text-align: left;">THIS GENERAL SERVICE AGREEMENT (the “Agreement”) dated this <u><b>{!DAY(wOrder.Start_date__c)}</b></u> day of <u><b>{!CASE(MONTH(wOrder.Start_date__c),1, 'January',2, "February",3, "March",4, "April",5, "May",6, "June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")}</b></u> , <u><b>{!YEAR(wOrder.Start_date__c)}</b></u><br/>
+			BETWEEN:</p>
+		<table style="width: 90%">
+			<tr>
+				<td style="width:40%;" class="classtd"><b>CLIENT</b></td>
+				<td style="width:20%;" class="classtd">&nbsp;</td>
+				<td style="width:40%;" class="classtd"><b>CONTRACTOR</b></td>
+			</tr>
+			<tr>
+				<td style="width:40%; vertical-align: text-top;" class="classtd"><b>{!wOrder.Customer__r.Name}, {!wOrder.Customer__r.Billing_name__c},<br/> {!wOrder.Customer__r.BillingCountry} {!wOrder.Customer__r.BillingCity} {!wOrder.Customer__r.BillingState} {!wOrder.Customer__r.BillingStreet} {!wOrder.Customer__r.BillingPostalCode}<br/>-TAX ID-</b></td>
+				<td style="width:20%;" class=".classtd">&nbsp;</td>
+				<td style="width:40%; vertical-align: text-top;" class="classtd">PTI Quality Containment Sollutions, LLC<br/> 18615 Shwerood, Ave, Detroit MI 48234<br/>PTI Tax Id: 043782103</td>
+			</tr>
+		</table>
+		<h5 class="classh5">BACKGROUND</h5>
+		<ul class="classul">
+			<li class="classli">The Client is of the opinion that the Contractor has the necessary qualifications, experience and abilities to provide services to the Client.</li>
+			<li class="classli">The Contractor is agreeable to providing such services to the Client on the terms and conditions set out in this Agreement. IN CONSIDERATION OF the matters described above and of the mutual benefits and obligations set forth in this Agreement, the receipt and sufficiency of which considerations is hereby acknowledged, the Client and the Contractor (individually the “Party” and collectively the “Parties” to this Agreement) agree as follows:</li>
+		</ul>
+		<h5 class="classh5">SERVICES PROVIDED</h5>
+		<ul class="classul">
+			<li class="classli">The Client hereby agrees to engage the Contractor to provide the Client with the following services (the “Services”): To perform quality services required by on behalf of the costumer.</li>
+			<li class="classli">The Services will also include any other tasks which the Parties may agree on. The Contractor hereby agrees to provide such Services to the Client</li>
+		</ul>
+		<h5 class="classh5">TERM OF AGREEMENT</h5>
+		<ul class="classul">
+			<li class="classli">The Term of this Agreement (the “Term”) will begin on the date of this Agreement and will remain in full force and effect until the completion of the Services, subject to earlier termination as provided in this Agreement. The Term may be extended with the written consent of the Parties.</li>
+			<li class="classli">In the event that either Party wishes to terminate this Agreement prior to the completion of the Services, that Party can do so immediately by serving written notice on the other Party.The Client agrees that the Contractor may terminate the agreement with no further liability to the Contractor, in the event the Client breaches the payment terms set forth herein.</li>
+		</ul>
+		<h5 class="classh5">PERFORMANCE</h5>
+		<p class="classp">The Parties agree to do everything necessary to ensure that the terms of this Agreement, take effect</p>
+		<h5 class="classh5">CURRENCY</h5>
+		<p class="classp">Except as otherwise provided in this Agreement, all monetary amounts referred to in this Agreement are in USD (US Dollars)</p>
+		<h5 class="classh5">COMPENSATION</h5>
+		<ul class="classul">
+			<li class="classli">The Contractor will charge the Client for the Services at the rate of $13.28 per hour (the “Compensation”).</li>
+			<li class="classli">The Client will be invoiced when the Services are complete.</li>
+			<li class="classli">Invoices submitted by the Contractor to the Client are due upon receipt.</li>
+			<li class="classli">In the event that this Agreement is terminated by the Client prior to completion of the Services but where the Services have been partially performed, the Contractor will be entitled to pro rata payment of the Compensation to the date of termination provided that there has been no breach of contract on the part of the Contractor.</li>
+			<li class="classli">The Compensation as stated in this Agreement does not include sales tax, or other applicable duties as may be required by law. Any sales tax and duties required by law will be charged to the Client in addition to the Compensation.</li>
+		</ul>
+		<h5 class="classh5">REIMBURSEMENT OF EXPENSES</h5>
+		<ul class="classul">
+			<li class="classli">The Contractor will be reimbursed from time to time for reasonable and necessary expenses incurred by the Contractor in connection with providing the Services. The Contractor will only be reimbursed for expenses submitted according to the following guidelines: Travel Expenses &amp; Per Diem</li>
+		</ul>
+		<h5 class="classh5">PENALTIES FOR LATE PAYMENT</h5>
+		<p class="classp"><span style="text-align: left;">Any late payments will trigger a fee of 5.00% per month on the amount still owing.</span><br/>Client agrees to pay all reasonable attorney’s fees and or other fees or costs if the account is placed with an attorney for collection</p>
+		<h5 class="classh5">PAYMENT OBLIGATION</h5>
+		<p class="classp"><b>{!ListaFinanzas[0].Contact__r.Name}</b> hereby personally guaranties the payment of all obligations of the Client hereby agrees to bind itself to pay on demand any sum which may become due under this agreement whenever the Client shall fail to pay the same according to the payment terms set forth above. This guaranty shall be a continuing and irrevocable guaranty and action may be taken against <b>{!ListaFinanzas[0].Contact__r.Name}</b> for any non-payment without notice thereof.</p>
+		<h5 class="classh5">CONFIDENTIALITY</h5>
+		<ul class="classul">
+			<li class="classli">Confidential information (the “Confidential Information”) refers to any data or information relating to the business of the Client which would reasonably be considered to be proprietary to the client including, but not limited to, accounting records, business processes, and client records and that is not generally known in the industry of the Client and where the release of that Confidential Information could reasonably be expected to cause harm to the Client.</li>
+			<li class="classli">The Contractor agrees that they will not disclose, divulge, reveal, report or use, for any purpose, any Confidential Information which the Contractor has obtained except as authorized by the Client or as required by law. The obligations of confidentiality will apply during the Term and will survive indefinitely upon termination of this Agreement.</li>
+			<li class="classli">All written and oral information and material disclosed or provided by the Client to the Contractor under this Agreement is Confidential Information regardless of whether it was provided before or after the date if this Agreement or how it was provided to the Contractor.</li>
+		</ul>
+		<h5 class="classh5">OWNERSHIP OF INTELLECTUAL PROPERTY</h5>
+		<ul class="classul">
+			<li class="classli">All intellectual property and related material (the “Intellectual Property”) that is developed or produced under this Agreement, will be the property of the Contractor. The Client is granted a non-exclusive limited-use license of this Intellectual Property.</li>
+			<li class="classli">Title, copyright, intellectual property rights and distribution rights of the Intellectual Property remain exclusively with the Contractor</li>
+		</ul>
+		<h5 class="classh5">RETURN OF PROPERTY</h5>
+		<ul class="classul">
+			<li class="classli">Upon the expiry or termination of this Agreement, the Contractor will return to the Client any property, documentation, records, or Confidential Information which is the property of the Client.</li>
+			<li class="classli">In the event that this Agreement is terminated by the Client prior to completion of the Services the Contractor will be entitled to recovery from the site or premises where the Services were carried out, or any materials or equipment which is the property of the Contractor or, where agreed between the Parties, to compensation in lieu of recovery.</li>
+		</ul>
+		<h5 class="classh5">CAPACITY/INDEPENDENT CONTRACTOR</h5>
+		<ul class="classul">
+			<li class="classli">In providing the Services under this Agreements it is expressly agreed that the Contractor is acting as an independent contractor and not as an employee. The Contractor and the Client acknowledge that this Agreement does not create a partnership or joint venture between them and is exclusively a contract for service. The Client is not required to pay, or make any contributions to, any social security, local, state, or federal tax, unemployment compensation, worker’s compensation, insurance premium, profit-sharing, pension or any other employee benefit for the Contractor during the Term. The Contractor is responsible for paying, and complying with reporting requirements for, all local, state and federal taxes related to payments made to the Contractor under this Agreement.</li>
+		</ul>
+		<h5 class="classh5">NOTICE</h5>
+		<dl class="classul">
+			<dt class="classli">All notices, requests, demands or other communications required or permitted by the terms of this Agreement will be given in writing and delivered to the Parties at the following addresses:</dt>
+			<dd class="classli" style="text-align: left;">A) <b>{!wOrder.Customer__r.Name}, {!wOrder.Customer__r.Billing_name__c}, <br/>{!wOrder.Customer__r.BillingCountry} {!wOrder.Customer__r.BillingCity} {!wOrder.Customer__r.BillingState} {!wOrder.Customer__r.BillingStreet} {!wOrder.Customer__r.BillingPostalCode}<br/>-TAX ID-</b></dd>
+			<dd class="classli" style="text-align: left;">B) PTI Quality Containment Sollutions, LLC<br/>18615 Shwerood, Ave, Detroit MI 48234<br/>PTI Tax Id: 043782103</dd>
+		</dl>
+		<p class="classp">Or to such other address as either Party may from time to time notify the other, and will be deemed to be properly delivered (a) immediately upon being served personally, (b) two days after being deposited with the postal service if served by registered mail, or (c) the following day after being deposited with an overnight courier</p>
+		<h5 class="classh5">INDEMNIFICATION</h5>
+		<ul class="classul">
+			<li class="classli">Except to the extent paid in settlement from any applicable insurance policies, and to the extent permitted by applicable law, each Party agrees to indemnify and hold harmless the other Party, and its respective directors, shareholders, affiliates, officers, agents, employees, and permitted successors and assigns against any and all claims, losses, damages, liabilities, penalties, punitive damages, expenses, reasonable legal fees and costs of any kind or amount whatsoever, which result from or arise out of any act or omission of the indemnifying party, its respective directors, shareholders, affiliates, officers, agents, employees, and permitted successors and assigns that occurs in connection with this Agreement. This indemnification will survive the termination of this Agreement.</li>
+		</ul>
+		<h5 class="classh5">MODIFICATION OF AGREEMENT</h5>
+		<ul class="classul">
+			<li class="classli">Any amendment or modification of this Agreement or additional obligation assumed by either Party in connection with this Agreement will only be binding if evidenced in writing signed by each Party or an authorized representative of each Party</li>
+		</ul>
+		<h5 class="classh5">TIME OF THE ESSENCE</h5>
+		<ul class="classul">
+			<li class="classli">Time is of the essence in this Agreement. No extension or variation of this Agreement will operate as a waiver of this provision.</li>
+		</ul>
+		<h5 class="classh5">ASSIGNMENT</h5>
+		<ul class="classul">
+			<li class="classli">The Contractor will not voluntarily, or by operation of law, assign or otherwise transfer its obligations under this Agreement without the prior written consent of the Client.</li>
+		</ul>
+		<h5 class="classh5">ENTIRE AGREEMENT</h5>
+		<ul class="classul">
+			<li class="classli">It is agreed that there is no representation, warranty, collateral agreement or condition affecting this Agreement except as expressly provided in this Agreement.</li>
+		</ul>
+		<h5 class="classh5">ENUREMENT</h5>
+		<ul class="classul">
+			<li class="classli">This Agreement will enure to the benefit of and be binding on the Parties and their respective heirs, executors, administrators and permitted successors and assigns.</li>
+		</ul>
+		<h5 class="classh5">TITLES/HEADINGS</h5>
+		<ul class="classul">
+			<li class="classli">Headings are inserted for the convenience of the Parties only are not to be considered when interpreting this Agreement.</li>
+		</ul>
+		<h5 class="classh5">GENDER</h5>
+		<ul class="classul">
+			<li class="classli">Words in the singular mean and include the plural and vice versa. Words in the masculine mean and include the feminine and vice versa.</li>
+		</ul>
+		<h5 class="classh5">GOVERNING LAW</h5>
+		<ul class="classul">
+			<li class="classli">This Agreement will be governed by and construed in accordance with the laws of the State of Michigan.</li>
+		</ul>
+		<h5 class="classh5">JURISDICTION</h5>
+		<ul class="classul">
+			<li class="classli">This Contract and any claim or action related thereto will be governed by and construed in accordance with the laws of the State of Michigan, without regard to its conflict of law provisions.</li>
+		</ul>
+		<h5 class="classh5">WAIVER OF COUNTER-CLAIMS</h5>
+		<ul class="classul">
+			<li class="classli">The Client waives any and all of its rights to interpose any claims, deductions, setoffs or counterclaims of any nature in any dispute with respect to the Agreement. Any claims, deductions, setoffs or counterclaims must be brought as a separate action subject to the choice of law, forum selection and jurisdictional waiver provisions of this agreement.</li>
+		</ul>
+		<h5 class="classh5">SEVERABILITY</h5>
+		<ul class="classul">
+			<li class="classli">In the event that any of the provisions of this Agreement are held to be invalid or unenforceable whole or in part, all other provisions will nevertheless continue to be valid and enforceable with the invalid or unenforceable parts severed from the remainder.</li>
+		</ul>
+		<h5 class="classh5">WAIVER</h5>
+		<ul class="classul">
+			<li class="classli">The waiver by either Party of a breach default, delay or omission of any of the provisions of this Agreement by the other Party will not be construed as a waiver of any subsequent breach of the same or other provisions.</li>
+		</ul>
+		<p class="classp"><b>IN WITNESS WHEREOF</b> the Parties have duly affixed their signatures under hand and seal on this <u><b>{!DAY(wOrder.Start_date__c)}</b></u> day of <u><b>{!CASE(MONTH(wOrder.Start_date__c),1, 'January',2, "February",3, "March",4, "April",5, "May",6, "June",7, "July",8, "August",9, "September",10, "October",11, "November",12, "December","None")}</b></u> , <u><b>{!YEAR(wOrder.Start_date__c)}</b></u>.</p>
+		<h5 class="classh5">Please update us your data</h5>
+            <table width="100%" cellspacing="3" style="border-collapse: separate;" align="center" class="classli">
+            	<tr class="classli">
+                	<td>Quality Manager: __________________________________________</td>
+                </tr>
+                <tr class="classli">
+                    <td>Purchasing Manager: __________________________________________</td>
+                </tr>
+                <tr class="classli">
+                    <td>Finance Manager: __________________________________________</td>
+            	</tr>
+                <tr class="classli">
+                    <td>Accounts Payable Manager: __________________________________________</td>
+                </tr>
+                <tr class="classli">
+                    <td>Director: __________________________________________</td>
+                </tr>
+            </table>
+		<table width="25%" cellspacing="3" style="border-collapse: separate;" align="center">
+         <tr>
+             <td width="25%" height="50px"></td>
+         </tr>
+		<tr style="text-align: center" align="center">
+            <apex:repeat value="{!ListaFinanzas}" var="listaFinanza">
+                <td width="25%" style="border-top:1px solid black; text-align: center">{!listaFinanza.Contact__r.Name}<br/>--{!listaFinanza.Role__c}--</td>
+			</apex:repeat>
+		</tr>
+	</table>
+	</div>
+
+ </body>
+ <div class="footer" align="center" style="font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif"/>
+</apex:page>

@@ -1,0 +1,149 @@
+<!--
+ *  @Copyright      DoIT Cloud Consulting
+ *  @Author         Jaziel Morán <jaziel.moran@doitcloud.consulting>
+-->
+<apex:component controller="ctrlDailyReportComponent" access="global" >
+	<apex:attribute access="global" assignTo="{!idWO}" name="idWOa" type="String" required="true" description="WO Id" />
+	<apex:attribute access="global" assignTo="{!dCheck}" name="daily" type="Boolean" required="true" description="Daily flag" />
+	<apex:attribute access="global" assignTo="{!wCheck}" name="weekly" type="Boolean" required="true" description="Weekly flag" />
+ 	<table width="100%">
+ 		<tr>
+ 			<td width="50%">&nbsp;</td>
+	      	<td align="right"  bgcolor="#FFFFFF"><apex:image width="200" url="{!$Resource.Logo}"/></td>
+	    </tr>
+ 	</table>
+ 	<table width="100%" cellspacing="0" style="border-collapse: separate; border: 1px solid black;">
+ 		<tr>
+	      	<td colspan="1" align="Center"><span style="font-size: 20px;"><b>Work Order Inspection Details </b></span></td>
+	    </tr>
+	    <tr><td width="100%">&nbsp;</td></tr>
+	    <tr>
+	      	<td>Work Order Code: {!WorkOrder.Name}</td>
+	    </tr>
+	    <tr>
+	      	<td>Problem, PRR, NCT, NCN: {!WorkOrder.Problem__c}</td>
+	    </tr>
+	    <tr>
+	      	<td>Job Description: {!WorkOrder.Job_description__c}</td>
+	    </tr>
+	    <tr>
+	      	<td style="display: {!If(wCheck ,'none','') }">Date: {!DAY(DateYesterday)}-{!MONTH(DateYesterday)}-{!YEAR(DateYesterday)}</td>
+	      	<td style="display: {!If(dCheck ,'none','') }">Date: {!DAY(FirstDate)}-{!MONTH(FirstDate)}-{!YEAR(FirstDate)} to {!DAY(TODAY())}-{!MONTH(TODAY())}-{!YEAR(TODAY())}</td>
+	    </tr>
+ 	</table>
+ 	<br/><br/>
+ 	<apex:repeat value="{!Inspections}" var="key">
+ 		<apex:variable value="{!0}" var="totalIns"/>
+ 		<apex:variable value="{!0}" var="totalDef"/>
+ 		<apex:variable value="{!0.00}" var="totalStandardHours"/>
+ 		<apex:variable value="{!0.00}" var="totalOTHours"/>
+		<b style="font-size:22px;"><apex:outputText value="{!partNumbers[key].Name}" style="padding-right: 180px;"></apex:outputText></b>
+		<br/>
+		<!-- <b>Defects description: </b><apex:outputText value="{!partNumbers[key].Defect_description__c}"/>
+		<br/> -->
+	 	<table width="100%" border="0" cellspacing="0" cellpadding="2" style="border-collapse:collapse;" >
+	 		<thead title="{!partNumbers[key].Name}" style="font-size: 14px;text-align: center">
+                <tr style="background:rgb(232,123,126);">
+                	<th scope="col" style="display: {!If(dCheck ,'none','') }">Date</th>
+                    <th scope="col">Total Inspec</th>
+                    <th scope="col">QTY Certifiec</th>
+                    <th scope="col">Total Defects</th>
+                    <th scope="col">Percentage</th>
+                    <th scope="col">Defects</th>
+                    <th scope="col">Other Defect</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Rework</th>
+                    <th scope="col">Batch</th>
+                    <th scope="col">Shift</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 14px;text-align: center">
+            	<apex:repeat value="{!Inspections[key]}" var="listIns">
+			 		<tr style="">
+			 			<td style="display: {!If(dCheck ,'none','') }">{!DAY(listIns.Date__c)}-{!MONTH(listIns.Date__c)}-{!YEAR(listIns.Date__c)}</td>
+				      	<td>{!listIns.Total_inspected__c}</td> 
+				      	<td>{!listIns.QTY_Certified__c}</td>
+				      	<td>{!listIns.Total_defects__c}</td>
+				      	<td>{!listIns.Defects_percentage__c}%</td>
+				      	<td>{!listIns.Defects__c}</td>
+				      	<td>{!listIns.Other_defects__c}</td>
+				      	<td width="15%" align="left">{!listIns.Description__c}</td>
+				      	<td>{!listIns.Rework__c}</td>
+				      	<td width="10%">{!listIns.Batch__c}</td>
+				      	<td>{!listIns.Shift__c}</td>
+				    </tr>
+				    <apex:variable var="totalIns" value="{!totalIns + listIns.Total_inspected__c}"/>
+				    <apex:variable var="totalDef" value="{!totalDef + listIns.Total_defects__c}"/>
+				    <apex:variable var="totalStandardHours" value="{!if(listIns.Billable_item__r.Billable_Item_Type__c=='Hourly',if(!contains(listIns.Billable_item__r.Name,'OT'),totalStandardHours+listIns.Quantity__c, totalStandardHours),totalStandardHours)}"/>
+				    <apex:variable var="totalOTHours" value="{!if(listIns.Billable_item__r.Billable_Item_Type__c=='Hourly',if(contains(listIns.Billable_item__r.Name,'OT'),totalOTHours+listIns.Quantity__c, totalOTHours),totalOTHours)}"/>
+				</apex:repeat>
+			</tbody>
+	 	</table>
+	 	<br/>
+	 	<table width="50%" align="left">
+	 		<tr>
+	 			<td width="50%" style="display: {!If(wCheck ,'none','') }"><apex:outputText value="Total Inspected: {!totalIns}"/></td>
+	 			<td width="50%" style="display: {!If(dCheck ,'none','') }"><apex:outputText value="Weekly Total Inspected: {!totalIns}"/></td>
+	 		</tr>
+	 		<tr>
+	 			<td style="display: {!If(wCheck ,'none','') }"><apex:outputText value="Total Defects: {!totalDef}"/></td>
+	 			<td style="display: {!If(dCheck ,'none','') }"><apex:outputText value="Weekly Total Defects: {!totalDef}"/></td>
+	 		</tr>
+	 		<tr>
+	 			<td style="display: {!If(wCheck ,'none','') }"><apex:outputText value="Standard Hours: {!totalStandardHours}"/></td>
+	 			<td style="display: {!If(dCheck ,'none','') }"><apex:outputText value="Weekly Standard Hours: {!totalStandardHours}"/></td>
+	 		</tr>
+	 		<tr>
+	 			<td style="display: {!If(wCheck ,'none','') }"><apex:outputText value="Overtime: {!totalOTHours}"/></td>
+	 			<td style="display: {!If(dCheck ,'none','') }"><apex:outputText value="Weekly Overtime: {!totalOTHours}"/></td>
+	 		</tr>
+	 	</table>
+        
+        <table width="50%" align="right">
+        <tr>
+            <td>Billable Items</td>
+            <td>Total</td>
+        </tr>
+      
+	<apex:repeat value="{!bItems}" var="BI">  
+        <tr>
+            <td>{!BI.Name}</td>
+            <td>{!BI.Billable_total__c}</td>
+        </tr>
+	</apex:repeat>
+    </table>
+        <br/><br/><br/><br/><br/><br/>
+	</apex:repeat>
+	<table width="50%" align="left">
+		<tr>
+			<td><b>Global QTY Certified: {!WorkOrder.Global_QTY_Certified__c}</b></td>
+		</tr>
+		<tr>
+			<td><b>Global defects: {!WorkOrder.Global_defects__c}</b></td>
+		</tr>
+		<tr>
+			<td><b>Global standard hours: {!WorkOrder.Global_standard_hours__c}</b></td>
+		</tr>
+		<tr>
+			<td><b>Global over time hours: {!WorkOrder.Global_overtime_hours__c}</b></td>
+		</tr>
+	</table>
+     <table width="50%" align="right">
+        <tr>
+            <td>Global Billable Items</td>
+            <td>Total</td>
+        </tr>
+      
+	<apex:repeat value="{!bItemsGlo}" var="BIgo">  
+        <tr>
+            <td>{!BIgo.Name}</td>
+            <td>{!BIgo.Billable_total__c}</td>
+        </tr>
+	</apex:repeat>
+    </table>
+	<!--
+	<apex:chart height="350" width="450" data="{!pieData}">
+        <apex:pieSeries dataField="data" labelField="name"/>
+        <apex:legend position="right"/>
+    </apex:chart>-->
+</apex:component>

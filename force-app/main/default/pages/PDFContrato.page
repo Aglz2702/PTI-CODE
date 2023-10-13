@@ -1,0 +1,198 @@
+<apex:page sidebar="true" renderAs="PDF" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+	<head>
+	   	<style  type="text/css">
+	       	@page {
+	            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+	       	};
+	       	tr{
+	       		page-break-inside:avoid; 
+	            page-break-after:auto ;
+	       	}
+	       	p{
+	       		font-size: 6px;
+	       		margin-top: 0px;
+	       	}
+	       	h5{
+	       		font-size: 7px;
+	       		margin-bottom: 3px;
+	       		margin-top: 3px;
+	       	}
+	       	td{
+	       		font-size: 6px;
+	       	}
+	       	li{
+	       		font-size: 6px;
+	       	}
+	       	ul{
+	       		margin-bottom: 0px;
+	       		margin-top: 0px;
+	       	}
+	       	p{
+	       		font-size: 6px;
+	       		margin-bottom: 0px;
+	       		margin-top: 0px;
+	       		line-height:100%;
+	       	}
+	   	</style>
+	</head>
+	<body>
+		<h5 style="text-align: center;">CONTRATO GENERAL DE SERVICIOS</h5>
+		<p>ESTE CONTRATO GENERAL DE SERVICIOS (el “Acuerdo”) fechado el ______ del mes de ______ , ______<BR/>
+			BETWEEN:</p>
+		<table style="width: 50%">
+			<tr>
+				<td style="width:40%;"><b>CLIENTE</b></td>
+				<td style="width:20%;">&nbsp;</td>
+				<td style="width:40%;"><b>PROVEEDOR</b></td>
+			</tr>
+			<tr>
+				<td style="width:40%;">&nbsp;</td>
+				<td style="width:20%;">&nbsp;</td>
+				<td style="width:40%;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width:40%;border-top:1px solid #9f9f9f;"><!-- Aquí van los datos del CLIENTE--></td>
+				<td style="width:20%;">&nbsp;</td>
+				<td style="width:40%;border-top:1px solid #9f9f9f;">B) PTIQCS, LLC 18615 Shwerood, Ave, Detroit MI 48234<!-- Aquí van los datos del PROVEEDOR--></td>
+			</tr>
+		</table>
+		<h5>ANTECEDENTES</h5>
+		<ul>
+			<li>El Cliente considera que el Contratista tiene las calificaciones, la experiencia y las habilidades necesarias para proporcionar servicios al Cliente.</li>
+			<li>El Contratista está de acuerdo en proporcionar dichos servicios al Cliente en los términos y condiciones establecidos en este Acuerdo.</li>
+			<li>EN CONSIDERACIÓN de los asuntos descritos anteriormente y de los beneficios y obligaciones mutuos establecidos en este Acuerdo, el recibo y la suficiencia de las cuales se reconocen aquí, el Cliente y el Contratista (individualmente, la "Parte" y colectivamente las "Partes" de este Acuerdo). de acuerdo de la siguiente manera:</li>
+		</ul>
+		<h5>SERVICIOS PRESTADOS</h5>
+		<ul>
+			<li>Por la presente, el Cliente acepta contratar al Contratista para que le brinde los siguientes servicios (los "Servicios"): Para realizar los servicios de calidad requeridos por el cliente.</li>
+			<li>Los Servicios también incluirán cualquier otra tarea que las Partes puedan acordar. El Contratista se compromete a proporcionar dichos Servicios al Cliente.</li>
+		</ul>
+		<h5>PLAZO DE ACUERDO</h5>
+		<ul>
+			<li>El Término de este Acuerdo (el "Término") comenzará en la fecha de firma del mismo y permanecerá en pleno vigor y efecto hasta la finalización de los Servicios, sujeto a la terminación anterior según lo dispuesto en este Acuerdo. El Término podrá extenderse con el consentimiento por escrito de las Partes.</li>
+			<li>En el caso de que cualquiera de las Partes desee rescindir este Acuerdo antes de la finalización de los Servicios, esa Parte puede hacerlo inmediatamente mediante notificación por escrito a la otra Parte.</li>
+			<li>El Cliente acepta que el Contratista puede rescindir el contrato sin ninguna otra responsabilidad con el Contratista, en caso de que el Cliente incumpla los términos de pago establecidos en este documento.</li>
+		</ul>
+		<h5>ACUERDO</h5>
+		<p>Las Partes acuerdan hacer todo lo necesario para garantizar que los términos de este Acuerdo surtan efecto.</p>
+		<h5>MONEDA</h5>
+		<p>Excepto que se disponga lo contrario en este Acuerdo, todos los montos monetarios a los que se hace referencia en este Acuerdo están en USD (dólares estadounidenses).</p>
+		<h5>COMPENSACIÓN</h5>
+		<ul>
+			<li>El Contratista cobrará al Cliente por los Servicios a una tarifa de $ 13.28 por hora (la "Compensación").</li>
+			<li>El Cliente será facturado cuando los Servicios estén completos.</li>
+			<li>Las facturas enviadas por el Contratista al Cliente se deben presentar una vez recibidas.</li>
+			<li>En el caso de que el Cliente finalice este Acuerdo antes de la finalización de los Servicios, pero cuando los Servicios se hayan realizado parcialmente, el Contratista tendrá derecho a un pago prorrateado de la Compensación hasta la fecha de terminación, siempre que no haya habido incumplimiento. de contrato por parte del Contratista.</li>
+			<li>La Compensación según lo establecido en este Acuerdo no incluye el impuesto a las ventas u otros deberes aplicables según lo exija la ley. Cualquier impuesto sobre las ventas y los deberes exigidos por la ley se cargarán al Cliente además de la Compensación.</li>
+		</ul>
+		<h5>REEMBOLSO DE GASTOS</h5>
+		<ul>
+			<li>El Contratista será reembolsado de vez en cuando por los gastos razonables y necesarios incurridos por el Contratista en relación con la prestación de los Servicios. El Contratista sólo recibirá un reembolso por los gastos presentados de acuerdo con las siguientes pautas: Gastos de viaje y viáticos</li>
+		</ul>
+		<h5>SANCIONES POR DEMORA EN PAGOS</h5>
+		<p>Cualquier pago atrasado generará una tarifa de 5.00% por mes sobre el monto pendiente.<br/>El cliente acepta pagar todos los honorarios razonables de abogado u otros honorarios o costos si la cuenta se coloca con un abogado para cobro</p>
+		<h5>OBLIGACIÓN DE PAGO</h5>
+		<p>Por la presente, __________________ garantiza personalmente el pago de todas las obligaciones del Cliente. Se compromete a obligarse a pagar a pedido cualquier suma que se deba en virtud de este acuerdo cuando el Cliente no pague lo mismo de acuerdo con los términos de pago establecidos anteriormente. Esta garantía será una garantía continua e irrevocable y se podrán tomar medidas contra _________ por cualquier falta de pago sin previo aviso.</p>
+		<h5>CONFIDENCIALIDAD</h5>
+		<ul>
+			<li>La información confidencial (la "Información confidencial") se refiere a cualquier dato o información relacionada con el negocio del Cliente que razonablemente se consideraría como propietario del cliente, incluidos, entre otros, registros contables, procesos comerciales y registros del cliente y eso no se conoce generalmente en la industria del Cliente y donde se podría esperar razonablemente que la divulgación de esa Información Confidencial cause daño al Cliente.</li>
+			<li>El Contratista acuerda que no divulgará, divulgará, revelará, informará o usará, para ningún propósito, cualquier Información Confidencial que el Contratista haya obtenido, excepto según lo autorice el Cliente o según lo exija la ley. Las obligaciones de confidencialidad se aplicarán durante el Plazo y sobrevivirán indefinidamente a la terminación de este Acuerdo.</li>
+			<li>Toda la información y el material escritos y orales divulgados o proporcionados por el Cliente al Contratista en virtud de este Acuerdo son Información confidencial, independientemente de si se proporcionó antes o después de la fecha en que se realizó este Acuerdo o cómo se proporcionó al Contratista.</li>
+		</ul>
+		<h5>PROPIEDAD INTELECTUAL</h5>
+		<ul>
+			<li>Toda la propiedad intelectual y el material relacionado (la "Propiedad intelectual") que se desarrolle o produzca conforme a este Acuerdo, será propiedad del Contratista. Al Cliente se le otorga una licencia de uso limitado no exclusiva de esta Propiedad Intelectual.</li>
+			<li>El título, los derechos de autor, los derechos de propiedad intelectual y los derechos de distribución de la propiedad intelectual permanecen exclusivamente con el contratista.</li>
+		</ul>
+		<h5>DEVOLUCIÓN DE LA PROPIEDAD</h5>
+		<ul>
+			<li>Al vencimiento o terminación de este Acuerdo, el Contratista devolverá al Cliente cualquier propiedad, documentación, registro o Información Confidencial que sea propiedad del Cliente.</li>
+			<li>En el caso de que el Cliente finalice este Acuerdo antes de completar los Servicios, el Contratista tendrá derecho a la recuperación del sitio o las instalaciones donde se llevaron a cabo los Servicios, o cualquier material o equipo que sea propiedad del Contratista o, cuando se acuerde entre las Partes, a indemnización en lugar de recuperación.</li>
+		</ul>
+		<h5>CAPACIDAD / CONTRATISTA INDEPENDIENTE</h5>
+		<ul>
+			<li>Al proporcionar los Servicios en virtud de este Acuerdo, se acuerda expresamente que el Contratista actúa como un contratista independiente y no como un empleado. El Contratista y el Cliente reconocen que este Acuerdo no crea una sociedad o empresa conjunta entre ellos y es exclusivamente un contrato de servicio. No se requiere que el Cliente pague o haga contribuciones a ningún impuesto de seguridad social, local, estatal o federal, compensación por desempleo, compensación al trabajador, prima de seguro, participación en los beneficios, pensión o cualquier otro beneficio de empleado para el Contratista durante el Término. El Contratista es responsable de pagar y cumplir con los requisitos de notificación de todos los impuestos locales, estatales y federales relacionados con los pagos realizados al Contratista en virtud de este Acuerdo.</li>
+		</ul>
+		<h5>NOTIFICACIONES</h5>
+		<p>Todos los avisos, solicitudes, demandas u otras comunicaciones requeridas o permitidas por los términos de este Acuerdo se entregarán por escrito y se entregarán a las Partes en las siguientes direcciones:<u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> A) <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u><br/>b) B) PTIQCS, LLC 18615 Shwerood, Ave, Detroit MI 48234<br/>O a la otra dirección, ya que cualquiera de las Partes puede, de vez en cuando, notificar a la otra, y se considerará que se ha entregado correctamente (a) inmediatamente después de recibir el servicio de manera personal, (b) dos días después de haber sido depositado en el servicio postal si el servicio está registrado correo, o (c) el día siguiente después de ser depositado con un mensajero durante la noche.</p>
+		<h5>INDEMNIZACIÓN</h5>
+		<ul>
+			<li>Excepto en la medida en que se pague en la liquidación de cualquier póliza de seguro aplicable, y en la medida permitida por la ley aplicable, cada Parte acuerda indemnizar y eximir de responsabilidad a la otra Parte y a sus respectivos directores, accionistas, afiliados, funcionarios, agentes, empleados y sucesores permitidos y asigna contra todos y cada uno de los reclamos, pérdidas, daños, responsabilidades, sanciones, daños punitivos, gastos, honorarios legales razonables y costos de cualquier tipo o monto que resulten de o surjan de cualquier acto u omisión de la parte indemnizadora , sus respectivos directores, accionistas, afiliados, funcionarios, agentes, empleados y sucesores y cesionarios permitidos que ocurran en relación con este Acuerdo. Esta indemnización sobrevivirá a la terminación de este Acuerdo.</li>
+		</ul>
+		<h5>MODIFICACIÓN DEL ACUERDO</h5>
+		<ul>
+			<li>Cualquier enmienda o modificación de este Acuerdo u obligación adicional asumida por cualquiera de las Partes en relación con este Acuerdo solo será vinculante si se evidencia por escrito y está firmada por cada Parte o un representante autorizado de cada Parte.</li>
+		</ul>
+		<h5>TIEMPO DE LA ESENCIA</h5>
+		<ul>
+			<li>El tiempo es esencial en este Acuerdo. Ninguna extensión o variación de este Acuerdo funcionará como una exención de esta disposición.</li>
+		</ul>
+		<h5>ASIGNACIÓN</h5>
+		<ul>
+			<li>El Contratista no podrá, voluntariamente o por ley, ceder o transferir sus obligaciones en virtud de este Acuerdo sin el consentimiento previo por escrito del Cliente.</li>
+		</ul>
+		<h5>ACUERDO</h5>
+		<ul>
+			<li>Se acuerda que no hay ninguna representación, garantía, acuerdo de garantía o condición que afecte a este Acuerdo, excepto lo dispuesto expresamente en este Acuerdo.</li>
+		</ul>
+		<h5>ENUREMENT</h5>
+		<ul>
+			<li>Este Acuerdo redundará en beneficio de y será vinculante para las Partes y sus respectivos herederos, ejecutores, administradores y sucesores y cesionarios permitidos.</li>
+		</ul>
+		<h5>TÍTULOS / TITULARES</h5>
+		<ul>
+			<li>Los encabezados se insertan para la conveniencia de las Partes, pero no deben considerarse al interpretar este Acuerdo.</li>
+		</ul>
+		<h5>GÉNERO</h5>
+		<ul>
+			<li>Las palabras en singular significan e incluyen el plural y viceversa. Las palabras en el masculino significan e incluyen el femenino y viceversa.</li>
+		</ul>
+		<h5>JURISDICCIÓN</h5>
+		<ul>
+			<li>Este Acuerdo se regirá e interpretará de acuerdo con las leyes del Estado de Michigan. <br/>Este Contrato y cualquier reclamo o acción relacionada con el mismo se regirán e interpretarán de acuerdo con las leyes del Estado de Michigan, sin tener en cuenta sus disposiciones de conflicto de leyes.</li>
+		</ul>
+		<h5>RENUNCIA DE CONTRA-RECLAMACIONES</h5>
+		<ul>
+			<li>El Cliente renuncia a todos y cada uno de sus derechos a interponer cualquier reclamo, deducción, compensación o contrademanda de cualquier naturaleza en cualquier disputa con respecto al Acuerdo. Cualquier reclamo, deducción, compensación o contrademanda debe presentarse como una acción separada sujeta a la elección de la ley, la selección del foro y las disposiciones de renuncia jurisdiccional de este acuerdo.</li>
+		</ul>
+		<h5>SEPARACIÓN</h5>
+		<ul>
+			<li>En el caso de que alguna de las disposiciones de este Acuerdo se considere inválida o inaplicable en su totalidad o en parte, todas las demás disposiciones seguirán siendo válidas y ejecutables con las partes inválidas o inejecutables separadas del resto.</li>
+		</ul>
+		<h5>RENUNCIA</h5>
+		<ul>
+			<li>La renuncia por cualquiera de las Partes de un incumplimiento, demora u omisión de cualquiera de las disposiciones de este Acuerdo por parte de la otra Parte no se interpretará como una renuncia a cualquier incumplimiento posterior de la misma o de otras disposiciones.</li>
+		</ul>
+		<p>EN TESTIMONIO DE LO CUAL, las Partes han colocado debidamente sus firmas y el sello en este ____ día de _____, _______.</p>
+
+		<table style="width: 50%">
+			<tr>
+				<td style="width: 40%;">&nbsp;</td>
+				<td style="width: 20%;">&nbsp;</td>
+				<td style="width: 40%;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width: 40%;border-top:1px solid #9f9f9f;">TESTIGO:__________</td>
+				<td style="width: 20%;">&nbsp;</td>
+				<td style="width: 40%;border-top:1px solid #9f9f9f;">__________(Cliente)</td>
+			</tr>
+			<tr>
+				<td style="width: 40%;"></td>
+				<td style="width: 20%;">&nbsp;</td>
+				<td style="width: 40%;"></td>
+			</tr>
+			<tr>
+				<td style="width: 40%;"></td>
+				<td style="width: 20%;">&nbsp;</td>
+				<td style="width: 40%;"></td>
+			</tr>
+			<tr>
+				<td style="width: 40%;border-top:1px solid #9f9f9f;">TESTIGO:__________</td>
+				<td style="width: 20%;">&nbsp;</td>
+				<td style="width: 40%;border-top:1px solid #9f9f9f;">PTIQCS LLC<br/>Per:___________________(CONTRATISTA)</td>
+			</tr>
+		</table>
+
+	</body>
+	
+</apex:page>

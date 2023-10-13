@@ -1,0 +1,3 @@
+<apex:page renderAs="pdf">
+    <c:NewDailyReport idWOa="a006C000001fwtbQAA" daily="false" weekly="true"/>
+</apex:page>

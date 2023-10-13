@@ -1,0 +1,35 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    
+	<aura:attribute name="woID" type="String" />
+    <aura:attribute name="newCF" type="Contact_function__c"
+        default="{ 'sobjectType': 'Contact_function__c' }" /> <!-- default to empty record -->
+    
+    <!-- Display a header with details about the account -->
+    <div class="slds-page-header" role="banner">
+        <h1 class="slds-page-header__title slds-m-right_small
+            slds-truncate slds-align-left">New Contact Role</h1>
+    </div>
+    
+        <!-- Display the new contact form -->
+    
+    <lightning:input aura:id="contactField" name="workOrder" label="Work order"
+                      value="{!v.newCF.Work_order__c}" required="true"/>
+  
+    <lightning:input aura:id="contactField" name="Contact" label="Contact"
+                     value="{!v.newCF.Contact__c}" required="true"/>
+    
+    <lightning:select aura:id="contactField" name="Role" label="Role"
+                      value="{!v.newCF.Role__c}" required="true">
+    	<aura:iteration items="{!v.newCF.Role__c}" var="role">
+            <option text="{!role}"/>
+        </aura:iteration>
+    </lightning:select>
+            
+    <lightning:input type="toggle" aura:id="contactField" name="Emailsent" label="Send daily email?"
+                     value="{!v.newCF.Send_daily_email__c}" />
+    
+        
+    <lightning:button label="Cancel" onclick="{!c.handleCancel}" class="slds-m-top_medium" />
+    <lightning:button label="Save Contact" onclick="{!c.handleSaveContact}"
+               variant="brand" class="slds-m-top_medium"/>
+</aura:component>

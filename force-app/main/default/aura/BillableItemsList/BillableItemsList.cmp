@@ -1,0 +1,49 @@
+<!--
+/**
+ *  @Name           ProductsListItem
+ *  @Copyright      DoIT Cloud Consulting
+ *  @Author         Jaziel Morán <jaziel.moran@doitcloud.consulting>
+**/
+-->
+<aura:component >
+	
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="WorkOrder" type="Work_order__c"/>
+    <aura:attribute name="Position" type="Integer" />
+    <aura:attribute name="Servs" type="List" />
+    <aura:attribute name="PriceType" type="List" />
+    <aura:attribute name="Type" type="List" />
+    <aura:attribute name="PriceTypeValue" type="String" />
+    <aura:attribute name="TypeValue" type="String" />
+    <aura:attribute name="DescriptionValue" type="String" />
+    
+    <aura:registerEvent name="cmpEvent" type="c:changeBillableItem"/>
+    <aura:handler name="init" action="{!c.doInit2}" value="{!this}" />
+    
+    
+    <!--<aura:registerEvent name="deletePart" type="c:deletePartEvt"/>-->
+
+    <tr > 
+        <td class="borderCls" > 
+            <div class="slds-form-element__control">
+            	<ui:inputSelect  aura:id="serviceType" class="slds-select" change="{!c.TypeF}" >
+                    <ui:inputSelectOption text="--- None ---" label="--- None ---" />
+                    <aura:iteration items="{!v.PriceType}" var="lc">
+                        <ui:inputSelectOption text="{!lc}" label="{!lc}" />
+                    </aura:iteration>
+                </ui:inputSelect>
+            </div>
+        </td> 
+        <td>
+        	<div class="slds-form-element__control">
+                <ui:inputSelect  aura:id="Type" class="slds-select" change="{!c.eventM}"/>
+            </div>
+        </td>
+        <td>
+        	<div class="slds-form-element__control">
+            	<ui:inputTextArea  aura:id="Description" class="slds-select" rows="1" change="{!c.eventM}"/>
+            </div>
+        </td>
+        <td><button class="slds-button slds-button_outline-brand" onclick="{!c.eventDelete}">{!$Label.c.CMP_field_custom_6}</button></td>
+    </tr>
+</aura:component>

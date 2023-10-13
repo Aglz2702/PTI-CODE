@@ -1,0 +1,182 @@
+<!--
+ *  @Copyright      PTI QCS with the use of DoIT Cloud
+ *  @Author         Emmanuel Gonzalez Lopez <egonzalez@ptiqcs.com>
+--> 
+
+<apex:page sidebar="true" renderAs="PDF" controller="SecondPDFController" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+<head>
+   	<style  type="text/css">
+   			div.header {
+	       		margin-top: 20px;
+	       		margin-left: 10px;
+				display: block; 
+				position: running(header);
+			}
+			@page {
+				@top-center { content: element(header) }
+				padding-top: 70px;
+			}
+       	@page {
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+       	};
+       	tr{
+       		page-break-inside:avoid; 
+            page-break-after:auto 
+       	}
+       	.classh5{
+       		font-size: 16px;
+       		margin-bottom: 1px;
+       		margin-top: 1px;
+       	}
+       	.classtd{
+       		/*text-align:justify;*/
+       		font-size:10px;
+       	}
+       	.classFirma{
+       		/*text-align:justify;*/
+       		font-size:14px;
+       	}
+       	.classli{
+       		text-align:justify;
+       		font-size: 10px;
+       	}
+       	.classul{
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       	}
+       	.classp{
+       		text-align:justify;
+       		font-size: 10px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+       	}
+        
+        .princi{
+       		font-size: 14px;
+       		margin-bottom: 0px;
+       		margin-top: 0px;
+       		line-height:100%;
+			font-family: arial;
+        	background-color: lightgrey;
+       	}
+        
+        .asterisco{
+            color: white;
+        }
+        
+        .tdTablas{
+            text-align: center;
+        	font-family: Arial Nova Cond Light;
+        }
+        
+        .dos{
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+        	font-family: Arial Nova Cond Light;
+            
+        }
+        
+   	</style>
+</head>
+<body>
+    <div class='header'>
+        <table>
+ 			<tr>
+ 				<td>&nbsp;</td>
+	      		<td bgcolor="#FFFFFF"><apex:image width="200" url="{!$Resource.Logo}"/></td>
+                <td colspan="2" class="asterisco">******************************</td>
+                <td bgcolor="#FFFFFF" align="right"><apex:image width="200" url="{!$Resource.Stellantis}"/></td>
+	   		 </tr>
+ 		</table>
+    </div>
+	<div style="page-break-after: always;">
+ 	
+        <table class="dos" width="100%">
+        	<th class="tdTablas"><h2>3CPR Service Continuation Request</h2></th>
+        </table>
+        <br/>
+ 	<table class="dos">
+        <tr>
+            <td>Dear: <b> {!wOrder.Customer__r.Name}</b></td>
+        </tr>
+    </table>
+    <br/>
+
+        <p>As you may be aware, as a result of a nonconformance, a 3CPR Project <b>{!wOrder.Project_Id__c}</b> was issued on <b>{!DAY(wOrder.Start_date__c)}/{!MONTH(wOrder.Start_date__c)}/{!YEAR(wOrder.Start_date__c)}</b>.</p>
+
+		<p>Today <b><apex:outputText value="{0,date,dd'/'MM'/'yyyy}"><apex:param value="{!TODAY()}" /></apex:outputText></b>, PTI has not received a Purchase Order to cover our services, or the funds of the previous Purchase Order provided have been exceeded. Per 3CPR, PTI shall have a valid Supplier's Purchase Order with sufficient funds to continue with the sorting activities within the next 24 hours that the project has been opened. Failure to provide a PO will result in the loss of a clean point and cease the sorting services, among other actions established on the 3CPR Policy.</p>
+
+		<p>Protecting the plant and ensuring service continuation is PTI&#39;s primary goal and priority; to continue with our services, we kindly ask you to provide your approval to continue with the sorting without a valid Purchase Order by electronically signing this document.</p>
+
+        <p>With your approval, PTI will raise this issue with the Stellantis 3CPR management team to request their support to either obtain a Purchase Order directly from the provider or process the charges according to Stellantis SCAP policies (Cost Recovery).</p>
+
+		<p>In the instance we do not receive your approval within the next 24 hours after the document was sent, PTI will be forced to adhere and comply with the 3CPR Policy to place the sort on hold and raise the issue with Stellantis 3CPR management to prevent any production line disruption due to the service interruption due to supplier failure to provide a Purchase Order.</p>
+        
+        <p>Stellantis Procurement Management has instructed us that we shall escalate this process to the next management level if approval is not received.</p>
+        
+        <p>The total project cost accumulated as of Today is <b>{!wOrder.Balance_to_be_invoiced__c}</b></p>
+        
+        <p>We sincerely appreciate your help and support; by requesting your approval, we adhere to Stellantis procuring and operating policies, processes, and directions to prevent further issues.</p>
+	    
+            <table width="{!If(checkSQM ,60,30) }%" cellspacing="12" style="border-collapse: separate;" align="right">
+			<tr style="height:5em;">
+				<td style="width: 50%; display: {!If(checkSQM ,'','none') }"></td>
+				<td style="width: 50%"></td>
+				<!--<td style="width: 33%"></td>-->
+			</tr>
+			<tr style="text-align: center">
+				<td style="border-top:1px solid black; display: {!If(checkSQM ,'','none') }" class="classFirma">-Supplier Quality Manager-<br/>{!cFinance.Contact__r.Name}</td>
+				<!--<td style="border-top:1px solid black;" class="classFirma">PTIQCS LLC<br/>Per:___________________(CONTRATISTA)</td>-->
+			</tr>
+		</table>
+	</div>
+
+	<!-- SPANISH -->
+
+	<div style="page-break-before: avoid;">
+		 <table class="dos" width="100%">
+        	<th class="tdTablas"><h2>Solicitud de Continuación de Servicio 3CPR</h2></th>
+        </table>
+        <br/>
+ 	<table class="dos">
+        <tr>
+            <td>Estimado: <b> {!wOrder.Customer__r.Name}</b></td>
+        </tr>
+    </table>
+    <br/>
+        
+		<p>Como ya sabrá, como resultado de una inconformidad, se emitió un Proyecto 3CPR <b>{!wOrder.Project_Id__c}</b> el <b>{!DAY(wOrder.Start_date__c)}/{!MONTH(wOrder.Start_date__c)}/{!YEAR(wOrder.Start_date__c)}</b>.</p>
+
+		<p>Hoy <b><apex:outputText value="{0,date,dd'/'MM'/'yyyy}"><apex:param value="{!TODAY()}" /></apex:outputText></b>, PTI no ha recibido una Orden de compra para cubrir nuestros servicios o se han excedido los fondos de la Orden de compra anterior proporcionada. Según 3CPR, PTI deberá tener una Orden de Compra del Proveedor válida con fondos suficientes para continuar con las actividades de clasificación dentro de las próximas 24 horas a partir de la apertura del proyecto. No proporcionar una orden de compra resultará en la pérdida de un punto limpio y cesarán los servicios de clasificación, entre otras acciones establecidas en la Política 3CPR.</p>
+
+		<p>Proteger la planta y garantizar la continuidad del servicio es el objetivo principal y la prioridad de PTI; para continuar con nuestros servicios, le pedimos amablemente que brinde su aprobación para continuar con la clasificación sin una Orden de Compra válida firmando electrónicamente este documento.</p>
+
+        <p>Con su aprobación, PTI planteará este problema al equipo de gestión de Stellantis 3CPR para solicitar su apoyo para obtener una orden de compra directamente del proveedor o procesar los cargos de acuerdo con las políticas de Stellantis SCAP (recuperación de costos).</p>
+
+		<p>En el caso de que no recibamos su aprobación dentro de las siguientes 24 horas después del envío del documento, PTI se verá obligado a adherirse y cumplir con la política de 3CPR para poner el tipo en espera y plantear el problema con la gestión de Stellantis 3CPR para evitar cualquier interrupción de la línea de producción debido a la interrupción del servicio debido a la falta de proveedor de una orden de compra.</p>
+        
+        <p>Stellantis Procurement Management nos ha indicado que escalaremos este proceso al siguiente nivel de gestión si no se recibe la aprobación.</p>
+        
+        <p>El costo total del proyecto acumulado a partir de hoy es <b>{!wOrder.Balance_to_be_invoiced__c}</b></p>
+        
+        <p>Agradecemos sinceramente su ayuda y apoyo; Al solicitar su aprobación, nos adherimos a las políticas, procesos e instrucciones de adquisición y operación de Stellantis para evitar problemas adicionales.</p>
+
+        
+		<table width="{!If(checkSQM ,60,30) }%" cellspacing="12" style="border-collapse: separate;" align="right">
+			<tr style="height:7em;">
+				<td style="width:50%; display: {!If(checkSQM ,'','none') }"></td>
+				<td style="width:50%"></td>
+				<!--<td style="width:33%"></td>-->
+			</tr>
+			<tr style="text-align: center">
+				<td style="border-top:1px solid black; display: {!If(checkSQM ,'','none') }" class="classFirma">-Gerente de Calidad del Proveedor-<br/>{!cFinance.Contact__r.Name}</td>
+				<!--<td style="border-top:1px solid black;" class="classFirma">-Tax Id-</td>-->
+			</tr>
+		</table>
+	</div>
+ </body>
+ <div class="footer" align="center" style="font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif"/>
+</apex:page>

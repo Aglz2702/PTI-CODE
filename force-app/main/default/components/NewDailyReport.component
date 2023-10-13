@@ -1,0 +1,244 @@
+<!--
+ *  @Copyright      PTI QCS
+ *  @Author         Emmanuel Gonzalez <egonzalez@ptiqcs.com>
+-->
+<apex:component controller="ctrlNewDailyReportComponent" access="global" >
+    <head>
+        <style  type="text/css">
+            div.header {
+                margin-top: 20px;
+                margin-left: 10px;
+                display: block; 
+                position: running(header);
+        
+            }
+            @page {
+                @top-center { content: element(header) }
+                padding-top: 70px;
+            }
+        @page {
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+        };
+        tr{
+            page-break-inside:avoid; 
+            page-break-after:auto 
+        }
+        .classh5{
+            font-size: 16px;
+            margin-bottom: 1px;
+            margin-top: 1px;
+        }
+        .classtd{
+            /*text-align:justify;*/
+            font-size:10px;
+        }
+        .classFirma{
+            /*text-align:justify;*/
+            font-size:14px;
+        }
+        .classli{
+            text-align:justify;
+            font-size: 14px;
+        }
+        .classlol{
+            font-size: 14px;
+        }
+        .classul{
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+        .classp{
+            text-align:justify;
+            font-size: 10px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            line-height:100%;
+        }
+        
+        .princi{
+            font-size: 14px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            line-height:100%;
+            font-family: arial;
+            background-color: lightgrey;
+        }
+        
+        .asterisco{
+            color: white;
+        }
+        
+        .tdTablas{
+            text-align: center;
+            font-family: Arial Nova Cond Light;
+        }
+        
+        .dos{
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+            font-family: Arial Nova Cond Light;
+            
+        }
+        
+        .nos {
+  			border: black 2px solid;
+        }
+        
+        tr:nth-child(even){
+        	background-color:blue;
+        
+        }
+        
+        
+    </style>
+    </head>
+	<apex:attribute access="global" assignTo="{!idWO}" name="idWOa" type="String" required="true" description="WO Id" />
+	<apex:attribute access="global" assignTo="{!dCheck}" name="daily" type="Boolean" required="true" description="Daily flag" />
+	<apex:attribute access="global" assignTo="{!wCheck}" name="weekly" type="Boolean" required="true" description="Weekly flag" />
+ 	<table width="100%">
+ 		<tr>
+ 			<td width="50%">&nbsp;</td>
+	      	<td align="right"  bgcolor="#FFFFFF"><apex:image width="200" url="{!$Resource.Logo}"/></td>
+	    </tr>
+ 	</table>
+    
+    <table width="100%" cellspacing="0" style="border-collapse: separate; border: 1px solid black;">
+         <tr>
+            <td colspan="1" align="Center"><span style="font-size: 20px;"><b>Work Order Inspection Details </b></span></td>
+        </tr>
+        <tr><td width="100%">&nbsp;</td></tr> <br/>
+        	<tr>
+                <td align="center" width="30%" class="classlol"><b>Work Order:</b></td>
+                <td align="center" width="70%" class="classlol">{!WorkOrder.Name}</td>
+            </tr>
+			<hr/><br/>
+        	<tr>
+                <td align="center" width="30%" class="classlol"><b>Problem, PRR, NCT, NCN:</b> </td>
+                <td align="center" width="70%" class="classlol">{!WorkOrder.Problem__c}</td>
+            </tr>
+        	<hr/><br/>
+            <tr>
+                <td align="center" width="30%" class="classlol"><b>Job Description:</b></td>
+				<td align="center" width="70%" class="classlol">{!WorkOrder.Job_description__c}</td>
+            </tr>
+			<hr/><br/>
+    	</table>
+    		<br/>
+    <apex:variable value="{!0}" var="totalIns"/>
+ 	<apex:variable value="{!0}" var="totalDef"/>
+    <table width="100%" border="0" cellspacing="0" cellpadding="2" style="border-collapse:collapse;" >
+                <tr style="background-color:#7f7f7f; color:White;">
+                	<th scope="col" >Date</th>
+                    <th scope="col" >Part Number</th>
+                    <th scope="col">Shift</th>
+                    <th scope="col">Total Inspec</th>
+                    <th scope="col">QTY Certifiec</th>
+                    <th scope="col">Total Defects</th>
+                    <th scope="col">Rework</th>
+                    <th scope="col">Description</th>
+                </tr>
+
+            <tbody style="font-size: 14px;text-align: center">
+ 	<apex:repeat value="{!Inspections}" var="key">
+            	<apex:repeat value="{!Inspections[key]}" var="listIns">
+			 		<tr style="">
+			 			<td class="classlol">{!DAY(listIns.Date__c)}-{!MONTH(listIns.Date__c)}-{!YEAR(listIns.Date__c)}</td>
+                        <td class="classlol">{!listIns.Part_number__r.Name}</td> 
+                        <td class="classlol">{!listIns.Shift__c}</td>
+				      	<td class="classlol">{!listIns.Total_inspected__c}</td> 
+				      	<td class="classlol">{!listIns.QTY_Certified__c}</td>
+				      	<td class="classlol">{!listIns.Total_defects__c}</td>
+                        <td class="classlol">{!listIns.Rework__c}</td>
+				      	<td class="classlol" width="15%" align="left">{!listIns.Description__c}</td>
+				    </tr>
+                    <apex:variable var="totalIns" value="{!totalIns + listIns.Total_inspected__c}"/>
+				    <apex:variable var="totalDef" value="{!totalDef + listIns.Total_defects__c}"/>
+				    </apex:repeat> 
+	</apex:repeat>
+                </tbody>
+	 	</table>
+    <br/><br/>
+    <table width="50%" align="left">
+	 		<tr>
+	 			<td width="50%" style="display: {!If(wCheck ,'none','') }"><b><apex:outputText value="Total Inspected: {!totalIns}"/></b></td>
+	 			<td width="50%" style="display: {!If(dCheck ,'none','') }"><b><apex:outputText value="Weekly Total Inspected: {!totalIns}"/></b></td>
+	 		</tr>
+	 		<tr>
+	 			<td style="display: {!If(wCheck ,'none','') }"><b><apex:outputText value="Total Defects: {!totalDef}"/></b></td>
+	 			<td style="display: {!If(dCheck ,'none','') }"><b><apex:outputText value="Weekly Total Defects: {!totalDef}"/></b></td>
+	 		</tr>
+	 	</table>
+    		<br/><br/><br/><br/>
+    	<table width="100%">
+		<tr>
+			<td><b>Global QTY Certified: {!WorkOrder.Global_QTY_Certified__c}</b></td>
+		</tr>
+		<tr>
+			<td><b>Global defects: {!WorkOrder.Global_defects__c}</b></td>
+		</tr>
+		<tr>
+			<td><b>Global standard hours: {!WorkOrder.Global_standard_hours__c}</b></td>
+		</tr>
+		<tr>
+			<td><b>Global over time hours: {!WorkOrder.Global_overtime_hours__c}</b></td>
+		</tr>
+	</table>
+    
+	<!-- pagina de detalles BI-->
+    <div style="page-break-after:always;"></div>
+	<table width="100%">
+ 		<tr>
+ 			<td width="50%">&nbsp;</td>
+	      	<td align="right"  bgcolor="#FFFFFF"><apex:image width="200" url="{!$Resource.Logo}"/></td>
+	    </tr>
+ 	</table>
+    <br/>
+    <table width="100%" cellspacing="0" style="border-collapse: separate; border: 1px solid black;">
+         <tr>
+            <td colspan="1" align="Center"><span style="font-size: 20px;"><b>Billable Items Details </b></span></td>
+        </tr>
+	    <tr><td width="100%">&nbsp;</td></tr><br/>
+        	<tr>
+                <td align="center" width="30%" class="classlol"><b>Work Order:</b></td>
+                <td align="center" width="70%" class="classlol">{!WorkOrder.Name}</td>
+            </tr>
+			<hr/><br/>
+ 	</table>
+    <br/>
+    <table width="100%" border="0" cellspacing="0" cellpadding="2" style="border-collapse:collapse;" >
+        <tr style="background-color:#7f7f7f; color:White;">
+                	<th scope="col" >Date</th>
+                    <th scope="col" >Billable Item</th>
+            		<th scope="col" >Unit Cost</th>
+            		<th scope="col" >Quantity</th>
+            		<th scope="col" >Cost</th>
+                </tr>
+        
+            <apex:repeat value="{!bItems}" var="BI">  
+                <tr style="display: {!If(wCheck ,'none','') }">
+                    <td class="classlol">{!DAY(BI.Date__c)}-{!MONTH(BI.Date__c)}-{!YEAR(BI.Date__c)}</td>
+                    <td class="classlol">{!BI.Billable_item__r.Name}</td>
+                    <td class="classlol">{!BI.Billable_item__r.Unit_cost__c}</td>
+                    <td class="classlol">{!BI.Quantity__c}</td>
+                    <td class="classlol">{!BI.Cost__c}</td>
+                </tr>
+            </apex:repeat>
+        
+        <apex:repeat value="{!bItemsweek}" var="BI2">  
+                <tr style="display: {!If(dCheck ,'none','') }">
+                    <td class="classlol">{!DAY(BI2.Date__c)}-{!MONTH(BI2.Date__c)}-{!YEAR(BI2.Date__c)}</td>
+                    <td class="classlol">{!BI2.Billable_item__r.Name}</td>
+                    <td class="classlol">{!BI2.Billable_item__r.Unit_cost__c}</td>
+                    <td class="classlol">{!BI2.Quantity__c}</td>
+                    <td class="classlol">{!BI2.Cost__c}</td>
+                </tr>
+            </apex:repeat>
+    </table>
+	<!--
+	<apex:chart height="350" width="450" data="{!pieData}">
+        <apex:pieSeries dataField="data" labelField="name"/>
+        <apex:legend position="right"/>
+    </apex:chart>-->
+</apex:component>

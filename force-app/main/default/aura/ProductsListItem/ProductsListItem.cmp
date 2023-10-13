@@ -1,0 +1,20 @@
+<!--
+/**
+ *  @Name           ProductsListItem
+ *  @Copyright      DoIT Cloud Consulting
+ *  @Author         Jaziel Morán <jaziel.moran@doitcloud.consulting>
+**/
+-->
+<aura:component >
+	<aura:attribute name="Product" type="Part_number__c"/>
+    <aura:registerEvent name="deletePart" type="c:deletePartEvt"/>
+
+    <tr > 
+        <td class="borderCls" > 
+            <div class="slds-form-element__control">
+            	<input id="{!v.Product.PartCount}" class="slds-input" type="text" placeholder="" value="{!v.Product.part.Part_number__c}"/>
+            </div>
+        </td> 
+        <td> <button class="slds-button slds-button_outline-brand" onclick="{!c.deletePart}">{!$Label.c.CMP_field_custom_6}</button></td>
+    </tr>
+</aura:component>

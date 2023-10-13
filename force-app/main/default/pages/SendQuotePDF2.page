@@ -1,0 +1,249 @@
+<!--
+ *  @Copyright      PTI QCS with the use of DoIT Cloud
+ *  @Author         Emmanuel Gonzalez Lopez <egonzalez@ptiqcs.com>
+--> 
+
+<apex:page sidebar="true" renderAs="PDF" controller="SendQuotePDFController2" applyBodyTag="false" applyHtmlTag="false" showHeader="false">
+<head>
+    <style  type="text/css">
+            div.header {
+                margin-top: 20px;
+                margin-left: 10px;
+                display: block; 
+                position: running(header);
+            }
+            @page {
+                @top-center { content: element(header) }
+                padding-top: 70px;
+            }
+        @page {
+            @bottom-center{ content: element(footer) "Página " counter(page) " de " counter(pages) ;font-size:11px;font-family: sans-serif;};
+        };
+        tr{
+            page-break-inside:avoid; 
+            page-break-after:auto 
+        }
+        .classh5{
+            font-size: 16px;
+            margin-bottom: 1px;
+            margin-top: 1px;
+        }
+        .classtd{
+            /*text-align:justify;*/
+            font-size:10px;
+        }
+        .classFirma{
+            /*text-align:justify;*/
+            font-size:14px;
+        }
+        .classli{
+            text-align:justify;
+            font-size: 10px;
+        }
+        .classul{
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+        .classp{
+            text-align:justify;
+            font-size: 10px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            line-height:100%;
+        }
+        
+        .princi{
+            font-size: 14px;
+            margin-bottom: 0px;
+            margin-top: 0px;
+            line-height:100%;
+            font-family: arial;
+            background-color: lightgrey;
+        }
+        
+        .asterisco{
+            color: white;
+        }
+        
+        .tdTablas{
+            text-align: center;
+            font-family: Arial Nova Cond Light;
+        }
+        
+        .dos{
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            padding: 1px;
+            font-family: Arial Nova Cond Light;
+            
+        }
+        
+        .no {
+  			border: black 2px solid;
+        }
+        
+    </style>
+</head>
+    <div class='header'><br/>
+        <table class="dos" align="left">
+            <tr><td>Quote N° {!presupuestos.QuoteNumber} </td></tr>
+        </table>
+        <table class="dos" align="right">
+            <tr><td><apex:image width="200" url="{!$Resource.Logo}"/></td></tr>
+        </table>
+        
+    </div>
+    <br/><br/><br/> 
+<body>
+    <table class="dos" width="100%" border-collapse="collapse">
+        <tr >
+            <td class="no">Quote: <b> {!presupuestos.Name}</b></td>
+            <td class="no">Date: <b> {!DAY(presupuestos.Start_date__c)}-{!MONTH(presupuestos.Start_date__c)}-{!YEAR(presupuestos.Start_date__c)}</b></td>
+            <td class="no">Rev: <b>06/04/2021</b></td>
+        </tr>
+    </table>
+    <br/>
+		<div style="page-break-after: always;">
+     <table class="dos" width="100%" align="right" cellspacing="10" cellpadding="8">
+         <tr>
+             <td class="no"><b>Customer:</b></td>
+             <td class="no" >{!presupuestos.Cliente__r.Name}</td>
+         </tr>
+          <tr>
+             <td class="no"><b>Location:</b></td>
+             <td class="no">{!presupuestos.Intervention_Sites__c}</td>
+         </tr>
+          <tr>
+         	<td class="no"><b>Service Frequency:</b></td>
+            <td class="no">{!presupuestos.Service_Frecuency__c}</td>
+         </tr>
+         <tr>
+         	<td class="no"><b>Service Period:</b></td>
+            <td class="no">{!presupuestos.Service_Period__c}</td>
+         </tr>
+         <tr>
+         	<td class="no"><b>Personal Requeriments:</b></td>
+            <td class="no">-</td>
+         </tr>
+         <tr>
+         	<td class="no"><b>Service Description:</b></td>
+            <td class="no">{!presupuestos.Service_Description__c}</td>
+         </tr>
+     </table>
+       
+        <table class="dos" width="100%" align="right" cellspacing="10" cellpadding="8">
+        <th align="left">FEE STRUCTURE</th>
+    	</table>
+         <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>  
+            
+        <table class="dos" width="100%">
+            <th class="no" style="background:rgb(255,60,60);">Product</th>
+            <th class="no" style="background:rgb(255,60,60);">List Price</th>
+            <th class="no" style="background:rgb(255,60,60);">Sales Price</th>
+            <th class="no" style="background:rgb(255,60,60);">Quantity</th>
+            <th class="no" style="background:rgb(255,60,60);">Discount</th>
+            <th class="no" style="background:rgb(255,60,60);">Total Price</th>
+            
+            <apex:repeat value="{!ParPresu}" var="BI">
+            <tr>
+                <td class="no">{!BI.Product2Id}</td>
+                <td class="no">{!BI.ListPrice}</td>
+                <td class="no">{!BI.UnitPrice}</td>
+                <td class="no">{!BI.Quantity}</td>
+                <td class="no">{!BI.Discount}</td>
+                <td class="no">{!BI.TotalPrice}</td>
+            </tr>
+            </apex:repeat>
+            <tr>
+                <td>        </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="no"><b>SubTotal</b></td>
+                <td class="no">{!presupuestos.SubTotal}</td>
+            </tr>
+            <tr>
+                <td colspan="5" class="no"><b>Grant Total</b></td>
+                <td class="no">{!presupuestos.GrandTotal}</td>
+            </tr> 
+        </table>
+        </div>
+    <div style="page-break-before: avoid;">
+            <p ><b>Rates</b><br/>
+            The rates apply to the location defined in this contract. <br/>Any hours worked over 8 hr/day or 48hr/week Mon-Sat will be invoiced at 2x the base hourly rate. All hours worked on Sunday or holidays will be invoiced at 3x the base hourly rate. <br/>For the avoidance of doubt, should the need of the Customer change to higher services frequencies, above prices shall apply for the invoicing based on the above table.
+        </p>
+            
+        <p><b>Setting Up</b><br/>
+			The Services will be carried out under the operational supervision of the PTI.<br/>
+			A kick-off meeting will be organized to agree, organizational details, reporting requirements, communication and escalation rules, and operational processes. The outputs of said meeting shall be formalized and agreed upon by both parties in a meeting memo.<br/>
+			Training as needed will be provided by the Customer to ensure PTI QCS has adequate knowledge of all required processes specific to the Customer. The program consists of the following materials: product specification/knowledge, production knowledge, processes, failure catalogs, quality history, outgoing inspection, and logistics.
+        </p>
+            
+        <p><b>Payment Conditions</b><br/>
+			The Customer will be invoiced weekly according to the hours and expenses documented in the Activity Report Any discrepancy identified by the Customer should be communicated to PTI QCS within 24 hours.<br/>
+			Payment terms are Net 07.
+        </p>
+            
+        <p><b>Travel Expenses</b><br/>
+			The calculation of travel expenses will be established from the service location site if needed.<br/>
+			All other expenses (hotel, rental car, flights, etc)  when required, are @ cost + 10%. 
+        </p>
+            
+        <p><b>Perdiem</b><br/>
+			The overnight expenses, for working away from the PTI QCS site, are established $45/day
+        </p>
+            
+        <p><b>Warranty / Complains</b><br/>
+			The visual Sorting method is not 100% reliable and may vary from part to part depending on characteristics, material nature, and conditions. According to AIAG standard visual Sorting can only catch 97% defects with two layers of Sorting which is PTI standard.<br/>
+			Cath rate will depend on AIAG charts and shall be agreed with customer before the SOP".<br/>
+			PTI Liability limited to re-sorting parts at the customer facility.
+         </p>
+            
+         <p><b>Other terms and conditions:</b><br/>
+			The information contained herein was prepared based on our interpretation of your requirements and our experience.  We have provided suggestions which we consider valuable and thus expect that the information provided is not revealed to other parties.  Please review this proposal carefully and let us know if you find deficiencies, errors, omissions, or misinterpretations of your requirements.  If you would like us to consider alternative solutions to meet your needs, please let us know.  We value your comments and appreciate your business.        
+         </p>
+            
+         <p><b>SERVICE AGREEMENT</b>, effective between PTI QCS  (hereinafter referred to as PTI Quality Containment Solutions LLC, Sherwood Av 18615, Detroit, and {!presupuestos.Cliente__r.Name} (hereinafter referred to as CUSTOMER).<br/>
+			PURPOSE: CUSTOMER wishes to retain the services of PTI QCS to advise and consult CUSTOMER on matters relative to work described herein, and PTI QCS willing to provide such services pending the following terms and conditions are honored.<br/>
+			1. PTI QCS agrees that for a period as indicated herein, commencing with the effective date of this Agreement, PTI QCS will render to CUSTOMER such services as set forth herein. Any additional services to be provided must be documented in an additional Statement of Work and/or Job Description with costs clearly defined.
+			2. Billing. CUSTOMER agrees to pay PTI QCS for all authorized work performed by PTI QCS on behalf of CUSTOMER as outlined herein. PTI QCS shall invoice CUSTOMER weekly for services rendered, and such invoices shall be due within 07 days. Invoices will reflect rates charged and a brief description of the services rendered. Where an hourly rate is charged, documentation of hours worked shall be included with the invoice<br/>
+			3. Terms of Payment. CUSTOMER agrees to provide PTI QCS with a Purchase Order or other evidence of payment authorization within 24 hours after service is initiated.<br/>
+			4. Equipment, Tools, Materials, and Supplies. PTI QCS acts solely as a service provider. Any equipment, tools, materials, and/or supplies utilized by PTI QCS on behalf of CUSTOMER must be provided by CUSTOMER or the purchase of equipment, tools, materials, and/or supplies by PTI QCS must be authorized by CUSTOMER, with reimbursement made to PTI QCS.<br/>
+			5. Non-waiver. The failure of either CUSTOMER or PTI QCS to exercise any of its rights under this agreement for a breach thereof shall not be deemed to be a waiver of any subsequent breach.<br/>
+			6. Non-solicitation. CUSTOMER shall not solicit for employment or hire PTI QCS contract employees – or any other person employed by PTI QCS who is involved in the performance of this Agreement. However, if a successful solicitation occurs before the contract proposed end date or within 90 days thereafter, a charge equal to 480 hours at the hourly rate stated in the Fee Schedule will be charged. If the PTI QCS contracted employee is hired after the contract end date (with prior written approval from PTI QCS), a fee of 120 hours at the hourly rate stated in the Fee Schedule will be payable to PTI QCS to compensate for the lost resources.<br/>
+			7. PTI QCS Responsibilities: PTI QCS shall use all reasonable efforts to complete the performance of the deliverable services within the time frame stipulated herein to which these Terms and conditions are attached.<br/>
+			8. CUSTOMER Responsibilities: CUSTOMER shall provide to PTI QCS, in a timely fashion, such information and access to management personnel, staff, and premises as is reasonably required by PTI QCS to complete the performance of the services. CUSTOMER shall provide and designate to the assignment those resources reasonably necessary to ensure timely approval and sign-off of project plans and accounts. PTI QCS shall be entitled to rely upon the accuracy of any data or information provided by CUSTOMER, its representatives, or advisors without independent verification by PTI QCS.<br/>
+			9. Delays. PTI QCS shall not be liable for failures or delays in the performance of services that arise from causes beyond its control, including the untimely performance by CUSTOMER of its obligations.<br/>
+			10. Confidential Information. Confidential information of any nature that either party acquires regarding any aspect of the other party's business shall be treated in strict confidence. Information so obtained shall not be divulged, furnished, or made accessible to third parties without the written permission of the other party to this Agreement. Both parties retain the right to do business with third parties in matters that may be competitive with the interests of the other party to this Agreement. However, the confidentiality constraints above shall be binding and have precedence over these business matters. Upon termination of this Agreement, the terms of this paragraph shall remain in effect.<br/>
+			11. Proprietary Information. Proprietary Information of CUSTOMER shall be used by PTI QCS only in connection with services rendered under this Agreement. Proprietary Information shall not be deemed to include information that (a) is in or becomes in the public domain without violation of this Agreement by PTI QCS or (b) is already in the possession of PTI QCS as evidenced by written documents, before the disclosure thereof by CUSTOMER, or (c) is rightfully received from a third entity has no obligation to CUSTOMER and without violation of this Agreement by PTI QCS.<br/>
+			12. Intellectual Property. CUSTOMER acknowledges that the use of any advice or other service provided by PTI QCS, its employees and agents does not relieve CUSTOMER responsibility [as a Manufacturer and seller] to execute sufficiently testing and judgment to ensure that any resulting product or system is suitable for usage in CUSTOMER‘s market.<br/>
+			13. Working Papers/Reports. All materials, reports, and work created, developed, or performed by PTI QCS during the engagement shall belong to the CUSTOMER. PTI QCS recognizes no responsibility whatsoever, other than that owed to CUS-TOMER as of the date on which (PTI QCS) report or other advice is given to CUSTOMER.<br/>
+			14. Assignability. This Agreement is not assignable by either party without the consent of the other. PTI QCS shall provide all services as an independent contractor and nothing shall be construed to create a partnership, joint venture, or other relationship. Neither party shall have the right power or authority to obligate or bind the other in any manner.<br/>
+    		15. Disclaimer of Warranty, Limitation of Liability. PTI QCS is neither the manufacturer nor supplier of parts, supplies, or equipment that may be handled, assembled, sorted, inspected, contained, and/or reworked by PTI QCS. Because delivery schedules, sort criteria, and defect rates change frequently, no warranty is given as to the number of parts handled per hour on a particular engagement. While PTI QCS focuses on quality improvements, no warranty is given that all defects will be detected and corrected. The Customer is responsible for promptly notifying PTI QCS of any suspected defect in work-manship or service and agrees to provide PTI QCS with a sample of the defective part and information necessary to allow tracing of the suspected defect including, but not limited to, part, serial, lot numbers, and manufacturing date. To the extent permitted by Applicable Law, the liability of each Party and its Affiliates arising under this Agreement is limited to direct damages up to the amount the Customer was required to pay for the Services giving rise to that liability. These limitations apply regardless of whether the liability is based on breach of contract or otherwise. If PTI QCS is working on a multi-project engagement for the Customer, the Parties expressly understand and agree that PTI QCS’ liability shall be limited to the amount actually paid to PTI QCS for that particular project concerning which any liability is aligned.<br/>
+			No unilateral charges will be applied to PTI QCS, all quality, warranty or complains shall be notified to PTI, reviewed together and based on the mutually agreed solution the potential debit will be applied.<br/>
+			16. Indemnity. CUSTOMER hereby agrees to indemnify and hold harmless PTI QCS and its parent corporation or body, its subsidiaries, directors, employees, affiliates, agents, or subcontractors, from any manner of actions, causes of action, suits, claims, and demands of every nature whatsoever as against PTI QCS, including but not limited to claims arising because of death, bodily injury, injury to property, or other loss or damage. The terms of this Section are non-revocable and shall survive the termination of this agreement.<br/>
+			17. Disputes. Both parties agree that all disputes arising out of or relating to this Contract will be resolved by the American Arbitration Association in Southfield, Michigan under its expedited commercial arbitration rules for all US contracts. The parties waive discovery, except upon a showing of exceptional good cause. The parties consent to service of any arbitration pleadings or related judicial proceedings by United States mail at the address in the engagement letter. Any party may commence confirmation proceedings by serving a copy of the complaint by United States mail to another party. Absent an answer within the limit provided for by the applicable rules, the Court may enter a final judgment on the award.<br/>
+			18. Entire Agreement. This Agreement (including this Contract, and other documents referred therein) constitutes the entire agreement between the parties with respect to the subject matter hereof. This Agreement supersedes any prior agreements, oral or written, between the parties concerning the subject matter hereof.<br/>
+			19. Amendment, Waiver, or Modification. No amendment, waiver, or modification of this Agreement shall be binding unless it is in writing and signed by both PTI QCS and CUSTOMER and dated after the date hereof. Performance of work by PTI QCS and/or acceptance of payment by PTI QCS for work performed and/or work to be performed for CUSTOMER beyond the scope of this Agreement does not constitute acceptance by PTI QCS of amendments or modifications to this Agreement nor shall they be binding. <br/>    
+         </p><br/>
+            <p>
+                If you are agree with this quote, please sign this document.
+            </p>
+            
+             <table width="{!If(checkCOTIZACION ,60,30) }%" cellspacing="12" style="border-collapse: separate;" align="right">
+            <tr style="height:5em;">
+                <td style="width: 50%; display: {!If(checkCOTIZACION ,'','none') }"></td>
+                <td style="width: 50%"></td>
+                <!--<td style="width: 33%"></td>-->
+            </tr>
+            <tr style="text-align: center">
+                <td style="border-top:1px solid black; display: {!If(checkCOTIZACION ,'','none') }" class="classFirma">-{!presupuestos.Contact.Name}-<br/>Customer</td>
+                <!--<td style="border-top:1px solid black;" class="classFirma">PTIQCS LLC<br/>Per:___________________(CONTRATISTA)</td>-->
+            </tr>
+        </table>
+        </div>
+    <br/>
+    
+ </body>
+ <div class="footer" align="center" style="font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif"/>
+</apex:page>
